@@ -1,0 +1,296 @@
+.google-visualization-table {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.google-visualization-table * {
+  -moz-box-sizing: inherit;
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+.google-visualization-table > div:first-child {
+  border: solid #eee;
+  border-width: 0;
+}
+
+.google-visualization-table > div:first-child.scrolling
+  .google-visualization-table-table th,
+.google-visualization-table > div:first-child.scrolling
+  .google-visualization-table-table .frozen-column {
+  visibility: hidden;
+  opacity: 0;
+  color: transparent;
+}
+
+.google-visualization-table > div:first-child.doneScrolling
+  .google-visualization-table-table th {
+  -webkit-transition: opacity .25s ease-in .1s;
+  -o-transition: opacity .25s ease-in .1s;
+  transition: opacity 0.25s ease-in 0.1s;
+}
+
+.google-visualization-table > div:first-child.doneScrolling
+  .google-visualization-table-table .frozen-column {
+  -webkit-transition: visibility , opacity .15s ease-in .15s;
+  -o-transition: visibility , opacity .15s ease-in .15s;
+  transition: visibility,opacity 0.15s ease-in 0.15s;
+}
+
+.google-visualization-table-table {
+  font-family: arial , helvetica;
+  font-size: 10pt;
+  cursor: default;
+  margin: 0;
+  background: white;
+  border-spacing: 0;
+  /* 'collapse' exposes browser bugs */
+  border-collapse: separate;
+}
+
+.google-visualization-table-table * {
+  margin: 0;
+}
+
+.google-visualization-table .gradient {
+  background-image: url("//ssl.gstatic.com/charts/static/table-title-bg.gif")
+    repeat-x left bottom;
+   /* @alternate */ background-image: -moz-linear-gradient(top,
+    rgba(255,255,255,0.8) 0%,
+    rgba(255,255,255,0.7) 30%,
+    rgba(255,255,255,0.5) 60%,
+    rgba(255,255,255,0) 100%); /* FF3.6+ */
+   /* @alternate */ background-image: -webkit-linear-gradient(top,
+    rgba(255,255,255,0.8) 0%,
+    rgba(255,255,255,0.7) 30%,
+    rgba(255,255,255,0.5) 60%,
+    rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+   /* @alternate */ background-image: -o-linear-gradient(top,
+    rgba(255,255,255,0.8) 0%,
+    rgba(255,255,255,0.7) 30%,
+    rgba(255,255,255,0.5) 60%,
+    rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+   /* @alternate */ background-image: -ms-linear-gradient(top,
+    rgba(255,255,255,0.8) 0%,
+    rgba(255,255,255,0.7) 30%,
+    rgba(255,255,255,0.5) 60%,
+    rgba(255,255,255,0) 100%); /* IE10+ */
+   /* @alternate */ background-image: linear-gradient(to bottom,
+    rgba(255,255,255,0.8) 0%,
+    rgba(255,255,255,0.7) 30%,
+    rgba(255,255,255,0.5) 60%,
+    rgba(255,255,255,0) 100%); /* W3C */
+}
+
+.google-visualization-table-tr-head {
+  background-color: rgb(228,233,244);
+  font-weight: bold;
+  text-align: center;
+}
+
+.google-visualization-table-sorthdr {
+  cursor: pointer;
+}
+
+.google-visualization-table-sortind {
+  color: #ccc;
+  padding-left: 4px;
+}
+
+.unsorted .google-visualization-table-sortind {
+  display: none;
+}
+
+.unsorted .google-visualization-table-sortind:after {
+  content: "\2003";
+}
+
+.sort-ascending .google-visualization-table-sortind:after {
+  content: "\25b2";
+}
+
+.sort-descending .google-visualization-table-sortind:after {
+  content: "\25bc";
+}
+
+.google-visualization-table-th {
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.google-visualization-table-td {
+  overflow: hidden; /* workaround arabic overflowing cells */
+}
+
+.google-visualization-table-th, .google-visualization-table-td {
+  padding: 2px 0.35em;
+  /* We must inherit the background color explicitly for relative positioning */
+  background-color: inherit;
+  /* background-clip is not quite enough for border-collapse: collapse */
+  background-clip: padding-box;
+}
+
+/* More specificity for border */
+.google-visualization-table-table td,
+.google-visualization-table-table th {
+  border: solid #eee;
+  border-width: 0 1px 1px 0;
+  padding: 2px 0.35em;
+}
+
+.google-visualization-table-table th {
+  position: relative;
+  z-index: 10;
+}
+
+.google-visualization-table-table td.frozen-column {
+  position: relative;
+  z-index: 5;
+}
+
+.google-visualization-table-table thead th.frozen-column {
+  z-index: 15;
+}
+
+.google-visualization-table-table .last-frozen-column {
+  border-right: 2px ridge #eee;
+}
+
+.google-visualization-table-tr-even {
+  background-color: #fff;
+}
+
+.google-visualization-table-tr-odd {
+  background-color: #fafafa;
+}
+
+.google-visualization-table-tr-sel {
+  background-color: #d6e9f8;
+}
+
+.google-visualization-table-tr-over {
+  background-color: #e7e9f9;
+}
+
+.google-visualization-table-td.google-visualization-table-type-bool {
+  text-align: center;
+  font-family: "Arial Unicode MS", Arial, Helvetica;
+}
+
+.google-visualization-table-td.google-visualization-table-type-date {
+  text-align: center;
+}
+
+.google-visualization-table-td.google-visualization-table-type-number {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.google-visualization-table-seq {
+  text-align: right;
+  color: #666;
+}
+
+.google-visualization-table-div-page {
+  display: inline-block;
+  width: 100%;
+  padding: 1px 0 0 1px;
+  border: 0;
+  background-color: rgb(228,233,244);
+  font-family: Arial , sans-serif;
+}
+
+.google-visualization-table-div-page [role="button"] {
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  font-family: "Arial Unicode MS", Arial, Helvetica;
+  font-size: 10px;
+  line-height: 10px;
+}
+
+.google-visualization-table-div-page [role="button"]
+ .goog-custom-button-inner-box {
+   padding: 1px 1px 2px 1px;
+}
+
+.google-visualization-table-page-prev,
+.google-visualization-table-page-next {
+}
+
+.google-visualization-table-page-prev:before {
+  content: "\25c4";
+}
+
+.google-visualization-table-page-next:before {
+  content: "\25ba";
+}
+
+.google-visualization-table-page-numbers {
+  display: inline-block;
+  zoom: 1;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.ie8 .google-visualization-table-page-numbers {
+  display: inline;
+}
+
+.google-visualization-table-page-number {
+  display: inline-block;
+  background-color: rgb(228,233,244);
+  border: 1px ButtonShadow outset;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: black;
+  font-size: 10px;
+  min-width: 10px;
+  margin: 2px;
+  padding: 0 2px;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.google-visualization-table-page-number.current {
+  font-weight: bold;
+  font-size: 11px;
+  background: #fefefe;
+  border-style: inset;
+}
+
+.google-visualization-table-page-number:hover {
+  background: #fefefe;
+  border-style: inset;
+}
+
+.google-visualization-table .transparent {
+  background-image: none;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.google-visualization-table .transparentIE6 {
+  background: none;
+}
+
+.google-visualization-table th .transparent,
+.google-visualization-table td .transparent {
+  color: transparent;
+  opacity: 0;
+}
+
+.google-visualization-table .google-visualization-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.google-visualization-table-loadtest {
+  padding-left: 6px; /* Don't change; see table.js */
+}

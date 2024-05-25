@@ -1,0 +1,6 @@
+This folder contains the obsoleted ValueScale class, its subclasses and utilities.
+
+Please do not use any of these classes for new applications.
+
+Also, please help disentangle the remaining dependencies on these classes so we
+can delete them.
