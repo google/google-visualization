@@ -94,8 +94,8 @@ export function positionTooltip(
   // be centered, which we would rarely want.
   // TODO(dlaliberte): This currently conflicts with the customPivot signal, which
   // can be set to (0, 0). If it is, it will be ignored. This may be correct.
-  let dx = googMath.sign(point.x - pivot.x);
-  let dy = googMath.sign(point.y - pivot.y);
+  let dx = Math.sign(point.x - pivot.x);
+  let dy = Math.sign(point.y - pivot.y);
 
   // Choose direction pair (dx, dy), preferring the north east (dx = 1, dy = -1)
   // Open westward only if it is possible to open west and it is the only

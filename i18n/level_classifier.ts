@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as asserts from 'google3/javascript/typescript/contrib/assert';
+import * as asserts from '@npm//@closure/asserts/asserts';
 
 /**
  * A structure that is capable of registering classifications for line breaks.

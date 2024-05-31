@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-import {assert} from 'google3/javascript/typescript/contrib/assert';
+import {assert} from '@npm//@closure/asserts/asserts';
 import {Coordinate} from '@npm//@closure/math/coordinate';
 import {
   Size,
@@ -26,32 +26,28 @@ import {
 } from '@npm//@closure/math/math';
 import {Vec2} from '@npm//@closure/math/vec2';
 
-import {
-  FocusTarget,
-  InteractivityModel,
-} from 'google3/third_party/javascript/gviz/common/option_types';
-import {
-  GlowDefinition,
-  RingDefinition,
-  SerieDefinition,
-} from 'google3/third_party/javascript/gviz/visualization/corechart/chart_definition_types';
-import {
-  isTooltipTriggeredByFocus,
-  isTooltipTriggeredBySelection,
-} from 'google3/third_party/javascript/gviz/visualization/corechart/chart_definition_utils';
+import {FocusTarget, InteractivityModel} from '../common/option_types';
 import {Options} from '../common/options';
 import {rangeMap} from '../common/util';
 import {Brush} from '../graphics/brush';
+import {generateInteractivityLayer} from '../legend/labeled_legend_definer';
 import {LabeledLegendDefinition} from '../legend/labeled_legend_definition';
 import {vectorOnEllipse} from '../math/vector_utils';
 import {TextStyle} from '../text/text_style';
 import {ActionsMenuDefiner} from '../tooltip/actions_menu_definer';
 import {InteractionState} from '../tooltip/tooltip_definition';
 import {ChartDefinition} from '../visualization/corechart/chart_definition';
-import {ChartState} from './chart_state';
-
-import {generateInteractivityLayer} from '../legend/labeled_legend_definer';
+import {
+  GlowDefinition,
+  RingDefinition,
+  SerieDefinition,
+} from '../visualization/corechart/chart_definition_types';
+import {
+  isTooltipTriggeredByFocus,
+  isTooltipTriggeredBySelection,
+} from '../visualization/corechart/chart_definition_utils';
 import {ChartInteractivityDefiner} from './chart_interactivity_definer';
+import {ChartState} from './chart_state';
 
 /**
  * Implementation of a ChartInteractivityDefiner for pie charts.

@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-import * as asserts from 'google3/javascript/typescript/contrib/assert';
+import * as asserts from '@npm//@closure/asserts/asserts';
 import {Box} from '@npm//@closure/math/box';
 import {Coordinate} from '@npm//@closure/math/coordinate';
 import * as googMath from '@npm//@closure/math/math';
@@ -448,25 +448,32 @@ export class TooltipDefiner {
     if (!point) {
       return new Coordinate(0, 0);
     }
+
+    const switchBySeries = (): Coordinate => {
+      // We need to distinguish between the series' types.
+      switch (seriesType) {
+        case SerieType.BARS:
+        case SerieType.STEPPED_AREA:
+          return this.calcBarTooltipAnchor(chartDefinition, point);
+        case SerieType.LINE:
+        case SerieType.AREA:
+        case SerieType.SCATTER:
+          return this.calcPointTooltipAnchor(chartDefinition, point, series);
+        case SerieType.CANDLESTICKS:
+          return this.calcCandlestickTooltipAnchor(chartDefinition, point);
+        case SerieType.BOXPLOT:
+          return this.calcBoxplotTooltipAnchor(chartDefinition, point);
+        default:
+          asserts.fail(`Invalid series type "${seriesType}"`);
+      }
+      return new Coordinate(0, 0); // Never used.
+    };
+
     switch (chartDefinition.chartType) {
       case ChartType.FUNCTION:
+        return switchBySeries();
       case ChartType.HISTOGRAM:
-        // We need to separate between the series' types.
-        switch (seriesType) {
-          case SerieType.BARS:
-          case SerieType.STEPPED_AREA:
-            return this.calcBarTooltipAnchor(chartDefinition, point);
-          case SerieType.LINE:
-          case SerieType.AREA:
-          case SerieType.SCATTER:
-            return this.calcPointTooltipAnchor(chartDefinition, point, series);
-          case SerieType.CANDLESTICKS:
-            return this.calcCandlestickTooltipAnchor(chartDefinition, point);
-          case SerieType.BOXPLOT:
-            return this.calcBoxplotTooltipAnchor(chartDefinition, point);
-          default:
-            asserts.fail(`Invalid series type "${seriesType}"`);
-        }
+        return switchBySeries();
       case ChartType.SCATTER:
         return this.calcPointTooltipAnchor(chartDefinition, point, series);
       case ChartType.BUBBLE:

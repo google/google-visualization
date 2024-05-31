@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import * as asserts from 'google3/javascript/typescript/contrib/assert';
+import * as asserts from '@npm//@closure/asserts/asserts';
 import {Box} from '@npm//@closure/math/box';
 import {Rect as GoogRect} from '@npm//@closure/math/rect';
 import * as messages from '../common/messages';

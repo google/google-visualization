@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import * as asserts from 'google3/javascript/typescript/contrib/assert';
+import * as asserts from '@npm//@closure/asserts/asserts';
 import * as googColor from '@npm//@closure/color/color';
 import * as dom from '@npm//@closure/dom/dom';
 import {Box} from '@npm//@closure/math/box';

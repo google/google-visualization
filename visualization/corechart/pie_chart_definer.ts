@@ -17,8 +17,11 @@
  * limitations under the License.
  */
 
-import {assert, fail} from 'google3/javascript/typescript/contrib/assert';
 import {extend} from '@npm//@closure/array/array';
+import {
+  assert,
+  fail,
+} from '@npm//@closure/asserts/asserts';
 import {Box} from '@npm//@closure/math/box';
 import * as googMath from '@npm//@closure/math/math';
 import {Range} from '@npm//@closure/math/range';
@@ -979,6 +982,7 @@ export class PieChartDefiner extends ChartDefiner {
       default:
         fail(`Invalid PieValueText: ${valueTextType}`);
     }
+    return ''; // never used.
   }
 
   /**

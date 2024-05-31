@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import * as asserts from 'google3/javascript/typescript/contrib/assert';
 import * as googArray from '@npm//@closure/array/array';
+import * as asserts from '@npm//@closure/asserts/asserts';
 import {Matrix} from '@npm//@closure/math/matrix';
 import * as numberScale from '../common/number_scale_util';
 import {Add} from '../math/expression/add';

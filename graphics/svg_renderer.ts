@@ -796,7 +796,7 @@ export class SvgRenderer extends BrowserRenderer {
         const desiredMinAngle =
           (SvgRenderer.ARC_MIN_DISTANCE / circumference) * 360;
         angleDiff =
-          ((desiredMinAngle - Math.abs(angleDiff)) * googMath.sign(angleDiff)) /
+          ((desiredMinAngle - Math.abs(angleDiff)) * Math.sign(angleDiff)) /
           2;
         fromAngle -= angleDiff;
         toAngle += angleDiff;

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as asserts from 'google3/javascript/typescript/contrib/assert';
+import * as asserts from '@npm//@closure/asserts/asserts';
 import * as graphemeBreak from '@npm//@closure/i18n/graphemebreak';
 import {BreakIteratorInterface} from './break_iterator_interface';
 import * as constants from './constants';

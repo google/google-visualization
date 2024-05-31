@@ -720,8 +720,8 @@ export function calcTooltipOutline(
   pivot: Coordinate,
 ): tooltipDefinition.Outline {
   // The tooltip attempts to open away from the pivot.
-  const hDirection = googMath.sign(anchor.x - pivot.x);
-  const vDirection = googMath.sign(anchor.y - pivot.y);
+  const hDirection = Math.sign(anchor.x - pivot.x);
+  const vDirection = Math.sign(anchor.y - pivot.y);
 
   // Center of the main tooltip box.
   let center = null;
