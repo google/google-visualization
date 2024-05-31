@@ -23,13 +23,13 @@
 
 // taze: google from //third_party/javascript/typings/googlemaps:google_maps_without_externs
 
-import {isObject} from 'google3/javascript/common/asserts/guards';
 import {
   getLogger,
   info,
   Logger,
   warning,
 } from '@npm//@closure/log/log';
+import {isObject} from '../common/object';
 // tslint:disable-next-line:deprecation
 import {Const} from '@npm//@closure/string/const';
 import {Timer} from '@npm//@closure/timer/timer';

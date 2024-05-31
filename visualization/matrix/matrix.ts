@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import {PositionDef} from 'google3/third_party/javascript/vega_lite/types/channeldef';
+import {PositionDef} from '@npm//@vega_lite/types/channeldef';
 import {AnyCallbackWrapper} from '../../common/async_helper';
 import {Options as GvizOptions, UserOptions} from '../../common/options';
 import {AbstractDataTable} from '../../data/abstract_datatable';

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import {isObject} from 'google3/javascript/common/asserts/guards';
+import {isObject} from '../common/object';
 
 import {deserialize, serialize} from '../common/json';
 import {unsafeClone} from '../common/object';

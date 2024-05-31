@@ -16,10 +16,9 @@
  * limitations under the License.
  */
 
-import {isObject} from 'google3/javascript/common/asserts/guards';
 import * as asserts from '@npm//@closure/asserts/asserts';
 import * as googJson from '@npm//@closure/json/json';
-
+import {isObject} from '../common/object';
 import {isDateLike} from './object';
 
 // tslint:disable:ban-types Migration

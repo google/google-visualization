@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 
-import {isObject} from 'google3/javascript/common/asserts/guards';
 import {assert} from '@npm//@closure/asserts/asserts';
 
 import {memoize} from './cache/memoize';
@@ -53,12 +52,27 @@ export function hashCode(str: string): number {
 }
 
 /**
+ * A type guard, converted from goog.isObject.
+ * @param value unknown: accepts any value
+ * @return value is object:  This is a type predicate.
+ *   If isObject(value) returns true, TypeScript infers that value is a non-null
+ * object (specifically, Record<string, unknown>, a Record with string keys and
+ * values of any type).
+ * The value could also be a function, an Array, or a Date, RegExp, etc.
+ */
+export function isObject(value: unknown): value is object {
+  return !!value && (typeof value === 'object' || typeof value === 'function');
+}
+
+/**
  * Converted from goog.isDateLike.
  * Returns true if the object looks like a Date. To qualify as Date-like the
  * value needs to be an object and have a getFullYear() function.
  */
 export function isDateLike(val: AnyDuringMigration): boolean {
-  return isObject(val) && typeof (val as Date).getFullYear === 'function';
+  return (
+    isObject(val) && typeof (val as unknown as Date).getFullYear === 'function'
+  );
 }
 
 /**

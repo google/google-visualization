@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-import {expressionInterpreter} from 'google3/third_party/javascript/vega/expressionInterpreter';
+import {expressionInterpreter} from '@npm//@vega/expressionInterpreter';
 import * as vega from 'vega';
 import * as vegaEmbed from 'vega-embed';
 import {AnyCallbackWrapper} from '../../common/async_helper';

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-import {isObject} from 'google3/javascript/common/asserts/guards';
+import {isObject} from '../common/object';
 
 import {
   deserialize,
@@ -801,10 +801,10 @@ export class DataTable extends AbstractDataTable {
     }
     // Redundant type guards since above logic is too complex for compiler.
     if ('label' in specification) {
-      label = specification['label'];
+      label = specification['label'] as string;
     }
     if ('id' in specification) {
-      id = specification['id'];
+      id = specification['id'] as string;
     }
 
     const labelIdIndex = label || id || atColIndex;

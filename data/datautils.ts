@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-import {isObject} from 'google3/javascript/common/asserts/guards';
+import {isObject} from '../common/object';
 
 import {DateFormat} from '../format/dateformat';
 import {Format} from '../format/format';

@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import {isObject} from 'google3/javascript/common/asserts/guards';
 import {assert} from '@npm//@closure/asserts/asserts';
 import {clamp} from '@npm//@closure/math/math';
+import {isObject} from '../common/object';
 
 import * as gvizJson from '../common/json';
 import {unsafeClone} from '../common/object';

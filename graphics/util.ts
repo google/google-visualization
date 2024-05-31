@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-import {isObject} from 'google3/javascript/common/asserts/guards';
 import * as assertsDom from '@npm//@closure/asserts/dom';
 import * as googColor from '@npm//@closure/color/color';
 import {DomHelper} from '@npm//@closure/dom/dom';
-import {SafeHtml} from 'safevalues';
+import {SafeHtml} from '@npm//@safevalues';
+import {isObject} from '../common/object';
 
 import * as logicalname from './logicalname';
 
