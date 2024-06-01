@@ -22,7 +22,7 @@ import {Box} from '@npm//@closure/math/box';
 import {Coordinate} from '@npm//@closure/math/coordinate';
 import * as googMath from '@npm//@closure/math/math';
 import {Size} from '@npm//@closure/math/size';
-import {SafeHtml} from 'safevalues';
+import {SafeHtml} from '@npm//@safevalues';
 import * as util from '../graphics/util';
 import {HtmlTooltipDefinition, Outline} from './tooltip_definition';
 import {

@@ -16,7 +16,11 @@
  * limitations under the License.
  */
 
-import {concatHtmls, createHtml, SafeHtml} from 'safevalues';
+import {
+  concatHtmls,
+  createHtml,
+  SafeHtml,
+} from '@npm//@safevalues';
 
 import {AbstractDataTable} from '../data/abstract_datatable';
 

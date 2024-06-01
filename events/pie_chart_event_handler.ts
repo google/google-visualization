@@ -19,21 +19,17 @@
 
 import {BrowserEvent} from '@npm//@closure/events/events';
 import {EventTarget as GoogEventTarget} from '@npm//@closure/events/eventtarget';
+
+import {ChartType} from '../common/option_types';
+import {AbstractRenderer} from '../graphics/abstract_renderer';
+import {OverlayArea} from '../graphics/overlay_area';
+import {Token, TOKEN_SEPARATOR} from '../visualization/corechart/id_utils';
+import {ChartEventHandler} from './chart_event_handler';
 import {
   generateEventType,
   OperationType,
   TargetType,
-} from 'google3/third_party/javascript/gviz/events/interaction_events';
-import {
-  Token,
-  TOKEN_SEPARATOR,
-} from 'google3/third_party/javascript/gviz/visualization/corechart/id_utils';
-import {ChartType} from '../common/option_types';
-
-import {AbstractRenderer} from '../graphics/abstract_renderer';
-import {OverlayArea} from '../graphics/overlay_area';
-
-import {ChartEventHandler} from './chart_event_handler';
+} from './interaction_events';
 
 /** ChartEventHandler implementation for a pie chart. */
 export class PieChartEventHandler extends ChartEventHandler {

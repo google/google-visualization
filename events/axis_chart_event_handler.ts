@@ -17,6 +17,22 @@
  * limitations under the License.
  */
 
+import {
+  indexOf,
+  peek,
+} from '@npm//@closure/array/array';
+import {assert} from '@npm//@closure/asserts/asserts';
+import {BrowserEvent} from '@npm//@closure/events/events';
+import {EventTarget} from '@npm//@closure/events/eventtarget';
+import {EventType} from '@npm//@closure/events/eventtype';
+import {Coordinate} from '@npm//@closure/math/coordinate';
+import {Rect} from '@npm//@closure/math/rect';
+
+import {ChartType, FocusTarget} from '../common/option_types';
+import {numberOrNull} from '../common/util';
+import {TargetType, generateEventType} from '../events/interaction_events';
+import {AbstractRenderer} from '../graphics/abstract_renderer';
+import {OverlayArea} from '../graphics/overlay_area';
 import {ChartDefinition} from '../visualization/corechart/chart_definition';
 import {
   getPointSensitivityAreaRadius,
@@ -29,24 +45,7 @@ import {
   generateId,
 } from '../visualization/corechart/id_utils';
 import {ChartEventHandler} from './chart_event_handler';
-
-import {
-  indexOf,
-  peek,
-} from '@npm//@closure/array/array';
-import {assert} from '@npm//@closure/asserts/asserts';
-import {BrowserEvent} from '@npm//@closure/events/events';
-import {EventTarget} from '@npm//@closure/events/eventtarget';
-import {EventType} from '@npm//@closure/events/eventtype';
-import {Coordinate} from '@npm//@closure/math/coordinate';
-import {Rect} from '@npm//@closure/math/rect';
-import {ChartType, FocusTarget} from '../common/option_types';
-import {numberOrNull} from '../common/util';
-import {TargetType, generateEventType} from '../events/interaction_events';
 import * as interactionEvents from './interaction_events';
-
-import {AbstractRenderer} from '../graphics/abstract_renderer';
-import {OverlayArea} from '../graphics/overlay_area';
 
 /** ChartEventHandler implementation for an axis chart. */
 export class AxisChartEventHandler extends ChartEventHandler {

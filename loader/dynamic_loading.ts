@@ -24,7 +24,7 @@ import {
   SafeHtml,
   SafeStyle,
   sanitizeUrl,
-} from 'google3/third_party/javascript/safevalues';
+} from '@npm//@safevalues';
 
 import {safenUpType} from './safe';
 

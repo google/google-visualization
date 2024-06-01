@@ -37,8 +37,11 @@ import {Value} from '../data/types';
 import {DEFAULT_MARGINS} from './defs';
 import * as tooltipDefinerUtils from './tooltip_definer_utils';
 
-import {sanitizeHtml} from 'google3/third_party/javascript/safevalues';
-import {SafeHtml, createHtml} from 'safevalues';
+import {
+  SafeHtml,
+  createHtml,
+  sanitizeHtml,
+} from '@npm//@safevalues';
 import {DynamicLoading} from '../loader/dynamic_loading';
 import * as vectorutils from '../math/vector_utils';
 import {TextBlock} from '../text/text_block_object';
@@ -440,6 +443,7 @@ export class TooltipDefiner {
   ): Coordinate {
     const series = chartDefinition.series[seriesIndex];
     const seriesType = series.type;
+
     categoryIndex = chartDefinition.getCanonicalCategoryIndex(
       seriesIndex,
       categoryIndex,

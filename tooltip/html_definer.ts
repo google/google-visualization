@@ -20,7 +20,12 @@
 import {assert} from '@npm//@closure/asserts/asserts';
 import {Box} from '@npm//@closure/math/box';
 import {Coordinate} from '@npm//@closure/math/coordinate';
-import {SafeHtml, concatHtmls, createHtml, htmlEscape} from 'safevalues';
+import {
+  SafeHtml,
+  concatHtmls,
+  createHtml,
+  htmlEscape,
+} from '@npm//@safevalues';
 import {getSafeHtml} from '../loader/dynamic_loading';
 import {TextMeasureFunction} from '../text/text_measure_function';
 import {TextStyle} from '../text/text_style';

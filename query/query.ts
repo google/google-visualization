@@ -24,8 +24,6 @@ import {XhrIo} from '@npm//@closure/net/xhrio';
 import {Uri} from '@npm//@closure/uri/uri';
 import * as utils from '@npm//@closure/uri/utils';
 import * as userAgent from '@npm//@closure/useragent/useragent';
-// import {safeScript} from 'google3/third_party/javascript/safevalues';
-// import {safeGlobal} from 'google3/third_party/javascript/safevalues/dom';
 
 import * as gvizJson from '../common/json';
 import {CsvToDataTable} from '../data/csv_to_datatable';

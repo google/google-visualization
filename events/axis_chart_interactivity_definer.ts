@@ -25,6 +25,7 @@ import {Coordinate} from '@npm//@closure/math/coordinate';
 import * as googMath from '@npm//@closure/math/math';
 import {Rect as GoogRect} from '@npm//@closure/math/rect';
 import {Size} from '@npm//@closure/math/size';
+
 import {ColorBarDefinition} from '../colorbar/color_bar_definition';
 import * as colorbarDefiner from '../colorbar/definer';
 import {Marker} from '../colorbar/types';
