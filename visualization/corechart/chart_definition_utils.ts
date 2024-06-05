@@ -557,8 +557,7 @@ export function getVAxisTicks(
 /**
  * Given a point and a radius, return the datum that is closest to that point
  * and also within the radius given.
- * TODO: refactor with
- * cs/google3/javascript/gviz/devel/canviz/axis-chart-event-handler.js&l=308
+ * TODO: refactor with detectHoveredPoint ../../events/axis_chart_event_handler.ts
  * @param chartDef The chart definition.
  * @param x The x coordinate to check.
  * @param y The y coordinate to check.
