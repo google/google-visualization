@@ -31,8 +31,8 @@ import {FormatInterface} from './abstract_datatable_interface';
 import {
   Cell,
   ColumnRange,
+  ColumnSpec,
   ColumnType,
-  ColumnTypeUnion,
   FilterColumns,
   FilterColumnsFunction,
   FilterColumnsObject,
@@ -101,7 +101,7 @@ export function parseCell(cell: Value | AnyDuringMigration): Cell {
  * method in DataTable and DataView. Throws an error if there are problems.
  * The columnFilters argument should be an array of objects, each object is
  * expected to have a numeric 'column' property, holding a column index, and at
- * least one of the followings:
+ * least one of the following:
  * 'value' property holding a value suitable for the column type;
  * 'minValue' property holding the minimum value suitable for the column type:
  * 'maxValue' property holding the maximum value suitable for the column type.
@@ -271,26 +271,6 @@ export function getFilteredRows(
 }
 
 /**
- *     calc {Function|string} - A function that accepts a DataTable and a row
- *         number as arguments and outputs a calculated value, or the key of
- *         a serializable/predefined function in `calcFunctionNames`.
- *     type {google.visualization.ColumnTypeUnion} - The return type of calc,
- *         see google.visualization.ColumnType.
- *     label {string} - The label of the calculated column. Optional.
- *     id {string} - The id of the calculated column. Optional.
- *     sourceColumn {number} - The index of the column in the underlying data
- *         table containing the source value. Only applies if the
- *         calculated column is using a serializable/predefined function.
- */
-declare interface DataViewCalcColumnSpec {
-  calc: string | ((dt: AbstractDataTable, rowIndex: number) => Value | null);
-  type: ColumnTypeUnion;
-  label?: string;
-  id?: string;
-  sourceColumn?: number;
-}
-
-/**
  * Validates the `columns` argument used by the `setColumns` method
  * in DataView. Throws an Error if the given columns are not valid.
  *
@@ -305,7 +285,7 @@ declare interface DataViewCalcColumnSpec {
 export function validateColumnSet(
   data: AbstractDataTable,
   calcFunctionNames: string[],
-  columns: Array<number | DataViewCalcColumnSpec>,
+  columns: Array<number | string | ColumnSpec>,
 ) {
   for (let i = 0; i < columns.length; i++) {
     const col = columns[i];
@@ -319,8 +299,8 @@ export function validateColumnSet(
     } else {
       // col must be an object.
       const calcSpec = col;
-      const sourceColumn = calcSpec['sourceColumn'];
-      const calc = calcSpec['calc'];
+      const sourceColumn = calcSpec.sourceColumn;
+      const calc = calcSpec.calc;
       if (typeof calc === 'string') {
         // The column is using a serializable predefined function,
         // so we need to validate it.
@@ -334,7 +314,7 @@ export function validateColumnSet(
           validateColumnReference(data, sourceColumn);
         }
       } else if (calc != null) {
-        if (!calcSpec['type']) {
+        if (!calcSpec.type) {
           throw new Error('Calculated column must have a "type" property.');
         }
       }

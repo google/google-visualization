@@ -22,10 +22,11 @@ import {assertEquals, assertObjectEquals} from '../common/test_utils';
 import {avg, count, max, min, month, sum} from './calc';
 import {DataTable, arrayToDataTable} from './datatable';
 import {group} from './group';
+import {TableSpec} from './types';
 
 describe('group testing', () => {
   describe('tests group', () => {
-    const obj = {
+    const obj: TableSpec = {
       'cols': [
         {'id': 'name', 'label': 'Name', 'type': 'string'},
         {'id': 'date', 'label': 'Date', 'type': 'date'},

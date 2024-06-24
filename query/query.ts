@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 
-import {JsonpSandbox} from 'google3/javascript/security/jsonps/jsonpsandbox';
 import {TagName} from '@npm//@closure/dom/tagname';
 import {Event} from '@npm//@closure/events/event';
 import * as xhr from '@npm//@closure/labs/net/xhr';
@@ -34,6 +33,12 @@ import {AbstractQuery} from './abstractquery';
 import {QueryResponse} from './queryresponse';
 import {ResponseVersion} from './response_version';
 import * as trixUtils from './trix_utils';
+
+const JsonpSandbox = () => {};
+
+// To exclude the JSONP Sandbox from the external repo, we use a constant that
+// is set to true in the internal repo, and false in the external repo.
+const JSONP_SANDBOX_SUPPORTED = false;
 
 // tslint:disable:ban-types Migration
 // tslint:disable-next-line:no-any For use by external code.
@@ -945,6 +950,9 @@ export class Query implements AbstractQuery {
    * Downloads a Jsonp response via JsonpSandbox.
    */
   private downloadJsonpViaSandbox(url: string) {
+    if (!JSONP_SANDBOX_SUPPORTED) {
+      throw new Error('JSONP Sandbox is not supported');
+    }
     const jsonp = new JsonpSandbox(url, /* timeout= */ 0);
     // This query mechanism doesn't support setting the 'tqx=responseHandler:'
     // parameter to specify the callback name, so the default is always used.

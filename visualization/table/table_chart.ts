@@ -59,7 +59,7 @@ import {
   MAC,
   VERSION,
 } from '@npm//@closure/useragent/useragent';
-import {safeElement} from 'safevalues/dom';
+import {safeElement} from '@npm//@safevalues/dom';
 
 import {AnyCallbackWrapper} from '../../common/async_helper';
 import {Options, UserOptions} from '../../common/options';

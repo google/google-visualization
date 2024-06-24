@@ -75,7 +75,7 @@ describe('join testing', () => {
     };
     const dt1 = new DataTable(obj1);
 
-    const obj2 = {
+    const obj2: TableSpec = {
       'cols': [
         {'label': 'Country', 'type': 'string'},
         {
@@ -307,7 +307,7 @@ describe('join testing', () => {
     'tests full join, multiple dimensions, multiple metrics, ' +
       'duplicate keys on the left table.',
     () => {
-      const obj1 = {
+      const obj1: TableSpec = {
         'cols': [
           {'id': 'artist', 'label': 'Artist', 'type': 'string'},
           {'id': 'album', 'label': 'Album', 'type': 'string'},
@@ -349,7 +349,7 @@ describe('join testing', () => {
 
       const dt1 = new DataTable(obj1);
 
-      const obj2 = {
+      const obj2: TableSpec = {
         'cols': [
           {'id': 'index', 'label': 'Index', 'type': 'number'},
           {'id': 'ALBUM', 'label': 'Album', 'type': 'string'},

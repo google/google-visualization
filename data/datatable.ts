@@ -171,7 +171,7 @@ export class DataTable extends AbstractDataTable {
     }
 
     for (let column = 0; column < numberOfColumns; column++) {
-      const type = columns[column]['type'];
+      const type = columns[column].type;
       if (type === ColumnType.DATE || type === ColumnType.DATETIME) {
         const numberOfRows = rows.length;
         for (let row = 0; row < numberOfRows; row++) {
@@ -276,7 +276,7 @@ export class DataTable extends AbstractDataTable {
    */
   getColumnType(columnIndex: number): ColumnType {
     datautils.validateColumnIndex(this, columnIndex);
-    const colType = this.dataCols[columnIndex]['type'];
+    const colType = this.dataCols[columnIndex].type;
     return typeof colType !== 'undefined'
       ? (colType as ColumnType)
       : ColumnType.STRING;
@@ -780,18 +780,18 @@ export class DataTable extends AbstractDataTable {
       this.invalidateEntireCellCache();
       datautils.validateColumnIndex(this, atColIndex);
     }
-    let type;
+    let type: ColumnTypeUnion | null = null;
     if (typeof specification === 'string') {
       // Specification must be a string, in particular, a ColumnType
-      type = specification;
+      type = specification as ColumnTypeUnion;
       // Create a specification object from the parameters.
       label = label || '';
       id = id || '';
       specification = {
-        'id': id,
-        'label': label,
-        'pattern': '',
-        'type': type,
+        id,
+        label,
+        pattern: '',
+        type,
       };
     }
     if (!isObject(specification)) {
@@ -801,10 +801,10 @@ export class DataTable extends AbstractDataTable {
     }
     // Redundant type guards since above logic is too complex for compiler.
     if ('label' in specification) {
-      label = specification['label'] as string;
+      label = specification.label as string;
     }
     if ('id' in specification) {
-      id = specification['id'] as string;
+      id = specification.id as string;
     }
 
     const labelIdIndex = label || id || atColIndex;
@@ -813,7 +813,7 @@ export class DataTable extends AbstractDataTable {
       // is used in many places.
       // throw new Error(`No type specified for column "${labelIdIndex}"`);
     } else {
-      type = specification['type'];
+      type = specification.type as ColumnTypeUnion;
     }
     if (type == null) {
       // Default to STRING.  Perhaps this is a bad idea.
@@ -831,16 +831,16 @@ export class DataTable extends AbstractDataTable {
     const columnType = type;
     const columnSpec: ColumnSpec = {
       ...(specification as Object),
-      'type': columnType,
+      type: columnType,
     } as ColumnSpec;
 
-    const role = columnSpec['role'];
-    if (columnSpec['role']) {
+    const role = columnSpec.role;
+    if (columnSpec.role) {
       // Copy the role from the top level into the properties.
-      const properties = columnSpec['p'] || {};
+      const properties = columnSpec.p || {};
       if (properties['role'] == null) {
         properties['role'] = role;
-        columnSpec['p'] = properties;
+        columnSpec.p = properties;
       }
     }
     this.dataCols.splice(atColIndex, 0, columnSpec);
@@ -1294,10 +1294,10 @@ export class DataTable extends AbstractDataTable {
     // Convert any remaining 'date?' to 'date'.
     for (let index = 0; index < columns.length; index++) {
       const column = columns[index];
-      if (column['type'] === 'date?') {
-        column['type'] = 'date';
+      if (column.type === 'date?') {
+        column.type = 'date';
       }
-      if (column['type'] == null) {
+      if (column.type == null) {
         // TODO(dlaliberte): Can't do this yet. Unknown type's must be allowed.
         // throw new Error(`Unknown type of column ${index}`);
       }
@@ -1418,19 +1418,19 @@ export class DataTable extends AbstractDataTable {
       // Skip the column if there is already a known type.
       // Except we keep checking every value if the type is 'date?'.
       if (
-        columns[columnIndex]['type'] != null &&
-        columns[columnIndex]['type'] !== 'date?'
+        columns[columnIndex].type != null &&
+        columns[columnIndex].type !== 'date?'
       ) {
         // TODO(dlaliberte): maybe validate that every value has correct type.
       } else {
         let type = DataTable.inferTypeOfValue(value);
         // If we see a date as first non-null value, ...
-        if (columns[columnIndex]['type'] == null && type === 'date') {
+        if (columns[columnIndex].type == null && type === 'date') {
           // convert to questionable date, which may be converted to datetime.
           type = 'date?';
         }
         if (type != null) {
-          columns[columnIndex]['type'] = type;
+          columns[columnIndex].type = type;
         }
       }
     }

@@ -55,6 +55,7 @@ export enum ColumnType {
   NUMBER = 'number',
   STRING = 'string',
   DATE = 'date',
+  DATEQ = 'date?',
   DATETIME = 'datetime',
   TIME = 'time', // Date that only uses hours, minutes, seconds, millis.
   TIMEOFDAY = 'timeofday', // Array of numbers
@@ -69,6 +70,7 @@ export type ColumnTypeUnion =
   | 'number'
   | 'string'
   | 'date'
+  | 'date?'
   | 'datetime'
   | 'timeofday'
   | 'function';
@@ -76,7 +78,10 @@ export type ColumnTypeUnion =
 /**
  * Function to calculate value given AbstractDataTable and row index.
  */
-export type CalcFunc = (dt: AnyDuringMigration, row: number) => Value | null;
+export type CalcFunc = (
+  dt: AnyDuringMigration,
+  row: number,
+) => Cell | Value | null;
 
 /**
  * Column specification
@@ -85,13 +90,17 @@ export declare interface ColumnSpec {
   id?: string; // The unique string for this column.
   index?: number; // The 0-based index of the column in a DataTable or DataView.
   label?: string; // Display name of the column
-  type?: string; // Should be ColumnTypeUnion.
+  type?: ColumnTypeUnion | string; // Should be a ColumnTypeUnion only.
   role?: string; // Should be a RoleTypeUnion.
   pattern?: string | null;
-  calc?: string | CalcFunc; // For DataView
+  calc?: string | CalcFunc; // For DataView. string is for predefined functions.
   sourceColumn?: string | number; // For DataView
   p?: Properties | null | undefined;
   properties?: Properties | null | undefined;
+  // For predefined functions.
+  magnitude?: number;
+  errorType?: string;
+  mapping?: Properties;
 }
 
 /**

@@ -26,7 +26,8 @@ import {Format} from '../format/format';
 import {AbstractDataTable} from './abstract_datatable';
 import {DataTable} from './datatable';
 import * as datautils from './datautils';
-import * as predefined from './predefined';
+import {PREDEFINED_FUNCTIONS} from './predefined';
+
 import {
   Cell,
   ColumnRange,
@@ -225,10 +226,12 @@ export class DataView extends AbstractDataTable {
    *
    *     role {string} The role of the column.
    */
-  setColumns(columns: Array<number | string | AnyDuringMigration>) {
+  setColumns(
+    columns: Array<number | string | ColumnSpec | AnyDuringMigration>,
+  ) {
     datautils.validateColumnSet(
       this.dataTable,
-      Object.keys(DataView.FUNCTIONS),
+      Object.keys(PREDEFINED_FUNCTIONS),
       columns,
     );
     this.columns = this.normalizeColumns(this.dataTable, columns);
@@ -658,7 +661,7 @@ export class DataView extends AbstractDataTable {
       const calc = col['calc'];
       if (typeof calc === 'string') {
         // The column is using a serializable function.
-        const calcFunc = DataView.FUNCTIONS[calc as string];
+        const calcFunc = PREDEFINED_FUNCTIONS[calc as string];
         if (typeof col !== 'object') {
           throw new Error(`Object expected for column ${col}`);
         }
@@ -1123,30 +1126,4 @@ export class DataView extends AbstractDataTable {
     }
     return view;
   }
-
-  /**
-   * A map of predefined functions that can be used for calculated columns.
-   * Each function takes the following parameters:
-   *   data {!AbstractDataTable} The underlying data table.
-   *   row {number} The row of the underlying data table that contains
-   *       the source value.
-   *   options {!Object} The options that allow the predefined function to find
-   * or calculate the new value using the data and row. Requirements for this
-   *       object vary by function.
-   * The function returns a {Value} to be returned as the value of
-   * DataView#getValue() for the column using the predefined function.
-   * TODO(dlaliberte): Export the functions in predefined and remove this
-   * map?
-   */
-  static FUNCTIONS: {
-    [key: string]: AnyDuringMigration;
-  } = {
-    'emptyString': predefined.emptyString,
-    'error': predefined.error,
-    'mapFromSource': predefined.mapFromSource,
-    'stringify': predefined.stringify,
-    'fillFromTop': predefined.fillFromTop,
-    'fillFromBottom': predefined.fillFromBottom,
-    'identity': predefined.identity,
-  };
 }

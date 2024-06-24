@@ -37,7 +37,7 @@ import {
 import {Size} from '@npm//@closure/math/size';
 import * as googObject from '@npm//@closure/object/object';
 import {Timer} from '@npm//@closure/timer/timer';
-import {safeElement} from 'safevalues/dom';
+import {safeElement} from '@npm//@safevalues/dom';
 import {EasingType, getProperties} from '../../common/animation';
 import {AnyCallbackWrapper} from '../../common/async_helper';
 import {CHART_SPECIFIC_DEFAULTS, DEFAULTS} from '../../common/defaults';
@@ -53,6 +53,7 @@ import {getTheme} from '../../common/theme';
 import {AbstractDataTable} from '../../data/abstract_datatable';
 import {DataTable} from '../../data/datatable';
 import {DataView} from '../../data/dataview';
+import {ColumnTypeUnion} from '../../data/types';
 import {AxisChartEventHandler} from '../../events/axis_chart_event_handler';
 import {AxisChartInteractivityDefiner} from '../../events/axis_chart_interactivity_definer';
 import {ChartEventDispatcher} from '../../events/chart_event_dispatcher';
@@ -954,13 +955,13 @@ export class CoreChart extends AbstractVisualization {
     for (let colIndex = firstValueCol; colIndex < colsCount; ++colIndex) {
       // Adds old data column label.
       diffDataTable.addColumn({
-        'type': oldData.getColumnType(colIndex),
+        'type': oldData.getColumnType(colIndex) as ColumnTypeUnion,
         'label': oldData.getColumnLabel(colIndex),
         'role': DIFF_OLD_DATA,
       });
       // Adds new data column label.
       diffDataTable.addColumn({
-        'type': newData.getColumnType(colIndex),
+        'type': newData.getColumnType(colIndex) as ColumnTypeUnion,
         'label': newData.getColumnLabel(colIndex),
         'role': DATA,
       });

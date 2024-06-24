@@ -22,19 +22,12 @@
 
 import {AbstractDataTable} from './abstract_datatable';
 import * as datautils from './datautils';
-import {Properties} from './types';
+import {ColumnSpec, Value} from './types';
 
 // tslint:disable:no-dict-access-on-struct-type Migration
 // tslint:disable:ban-types Migration
 // tslint:disable-next-line:no-any For use by external code.
 type AnyDuringMigration = any;
-
-declare interface PredefinedOptions {
-  sourceColumn: number;
-  magnitude: number;
-  errorType: string;
-  mapping: Properties;
-}
 
 /**
  * Always returns the empty string.
@@ -68,7 +61,7 @@ export function emptyString(
 export function error(
   data: AbstractDataTable,
   row: number,
-  options: PredefinedOptions,
+  options: ColumnSpec,
 ): number | null {
   const column = options['sourceColumn'];
   const error = options['magnitude'];
@@ -98,7 +91,7 @@ export function error(
 export function stringify(
   data: AbstractDataTable,
   row: number,
-  options: PredefinedOptions,
+  options: ColumnSpec,
 ): string {
   const column = options['sourceColumn'];
   if (typeof column !== 'number') {
@@ -124,7 +117,7 @@ export function stringify(
 export function mapFromSource(
   data: AbstractDataTable,
   row: number,
-  options: PredefinedOptions,
+  options: ColumnSpec,
 ): AnyDuringMigration {
   const column = options['sourceColumn'];
   const mapping = options['mapping'];
@@ -210,3 +203,31 @@ export function identity(
   }
   return data.getValue(row, column);
 }
+
+/**
+ * A map of predefined functions that can be used for calculated columns.
+ * Each function takes the following parameters:
+ *   data {!AbstractDataTable} The underlying data table.
+ *   row {number} The row of the underlying data table that contains
+ *       the source value.
+ *   options {!Object} The options that allow the predefined function to find
+ * or calculate the new value using the data and row. Requirements for this
+ *       object vary by function.
+ * The function returns a {Value} to be returned as the value of
+ * DataView#getValue() for the column using the predefined function.
+ */
+export const PREDEFINED_FUNCTIONS: {
+  [key: string]: (
+    dt: AbstractDataTable,
+    n: number,
+    obj: AnyDuringMigration,
+  ) => Value | null;
+} = {
+  'emptyString': emptyString,
+  'error': error,
+  'mapFromSource': mapFromSource,
+  'stringify': stringify,
+  'fillFromTop': fillFromTop,
+  'fillFromBottom': fillFromBottom,
+  'identity': identity,
+};

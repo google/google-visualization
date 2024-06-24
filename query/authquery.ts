@@ -143,8 +143,10 @@ export class AuthQuery extends Query {
 
   /**
    * Login the current user to the current scope for the current page.
+   * @see google3/googledata/gaia/frontend/public/guser/user.js
    * @param scope An optional scope to login to.
-   * @return An authentication token, or an empty string in case of an error.
+   * @return An authentication token, or an empty string in case of an
+   *     error.
    */
   login(scope?: string): string {
     if (!this.validateAuthLibPresent()) {
@@ -152,7 +154,7 @@ export class AuthQuery extends Query {
     }
     scope = scope || this.getScope();
 
-    // TODO(dlaliberte): The following call supports scopes without query
+    // TODO(dlaliberte): The following call supports scopes with out query
     // parameters.
     // It should be possible to not remove the params (# should be removed) and
     // get a finer scope for the login.
@@ -162,6 +164,7 @@ export class AuthQuery extends Query {
   }
 
   /**
+   * @see google3/googledata/gaia/frontend/public/guser/user.js
    * @param callback An optional callback method.
    * @return Returns false if user already logged out or in case of an
    *     error.
@@ -177,6 +180,7 @@ export class AuthQuery extends Query {
   /**
    * Checks the login of the current user and the from the current page to the
    * given scope.
+   * @see google3/googledata/gaia/frontend/public/guser/user.js
    * @return A token, if one exists. If no token exists for the
    *     specified scope or an error occurs, this method returns an empty
    * string.

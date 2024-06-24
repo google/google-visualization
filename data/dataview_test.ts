@@ -284,7 +284,7 @@ describe('DataView Tests', () => {
     ]);
     dt = view.toDataTable();
 
-    // Check the calcualted column.
+    // Check the calculated column.
     assertEquals('revenue', dt.getColumnLabel(0));
     assertEquals('c0', dt.getColumnId(0));
     assertEquals('number', dt.getColumnType(0));
@@ -1001,7 +1001,7 @@ describe('DataView Tests', () => {
   });
 
   it('Generates DataView with correct calculated column type', () => {
-    const obj = {'cols': [{'type': 'number'}]};
+    const obj: TableSpec = {'cols': [{'type': 'number'}]};
     const data = new DataTable(obj);
     data.addRows([[1], [2], [3], [4]]);
     const view = new DataView(data);
