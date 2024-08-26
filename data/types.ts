@@ -255,6 +255,11 @@ export declare interface GroupAggregationColumnSpec {
  * Note that using interface doesn't work since JSC complains with, e.g.:
  *    dataTable.getColumnRange(2)['min']
  *      "Cannot do '[]' access on a struct"
+ * Also, using Value | null for max and min doesn't work yet since
+ * several clients assume the min and max values are numbers and
+ * a few assume they are Date objects, and there is no way to tell whether
+ * the values are numbers, Dates, or null.  Also, we need to allow indexed
+ * access to the 'min' and 'max' properties, until all are fixed.
  */
 export // tslint:disable-next-line:interface-over-type-literal See jsdoc.
 declare type ColumnRange = {

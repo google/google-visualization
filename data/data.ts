@@ -30,6 +30,7 @@ import {
 } from './datatable';
 import {
   Cell,
+  ColumnRange,
   ColumnType,
   DataObject,
   DataObjectValues,
@@ -278,7 +279,7 @@ export class Data extends AbstractDataTable {
    * @return An object with two properties, min and max, containing
    *    the minimum and maximum values in the column, respectively.
    */
-  getColumnRange(columnIndex: number): {min: number; max: number} {
+  getColumnRange(columnIndex: number): ColumnRange {
     return this.primaryDataTable.getColumnRange(columnIndex);
   }
 

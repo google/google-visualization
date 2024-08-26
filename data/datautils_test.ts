@@ -18,7 +18,7 @@
 import 'jasmine';
 
 import * as testUtils from '../common/test_utils';
-import {TableSpec} from '../data/types';
+import {TableSpec, Value} from '../data/types';
 
 import {AbstractDataTable} from './abstract_datatable';
 import {arrayToDataTable, DataTable} from './datatable';
@@ -44,21 +44,17 @@ const {
   isArrayEquals,
 } = testUtils;
 
-// tslint:disable:ban-types Migration
-// tslint:disable-next-line:no-any For use by external code.
-type AnyDuringMigration = any;
-
 describe('DataUtils Test', () => {
   /**
    * Asserts that the given type is valid for the column and index.
    * @param dt The data to check against.
    * @param colIndex The index of the column.
-   * @param val The value to check.
+   * @param val The value to check, which could be null or an object.
    */
   const assertCheckTypeMatchThrowsException = (
     dt: AbstractDataTable,
     colIndex: number,
-    val: AnyDuringMigration,
+    val: Value | null | {},
   ) => {
     assertThrows(() => {
       // 'col: ' + colIndex + ' val: ' + val,
@@ -68,7 +64,7 @@ describe('DataUtils Test', () => {
 
   it('Checks that data types match declaration', () => {
     const obj: TableSpec = {};
-    obj['cols'] = [
+    obj.cols = [
       {'id': 'A', 'label': 'Text', 'type': 'string'},
       {'id': 'B', 'label': 'Number', 'type': 'number'},
       {'id': 'C', 'label': 'Boolean', 'type': 'boolean'},
@@ -126,7 +122,7 @@ describe('DataUtils Test', () => {
 
   it('Gets sorted rows', () => {
     const obj: TableSpec = {};
-    obj['cols'] = [
+    obj.cols = [
       {'id': 'A', 'label': 'Text', 'type': 'string'},
       {'id': 'B', 'label': 'Number', 'type': 'number'},
       {'id': 'C', 'label': 'Boolean', 'type': 'boolean'},
@@ -134,10 +130,10 @@ describe('DataUtils Test', () => {
       {'id': 'E', 'label': 'Timeofday', 'type': 'timeofday'},
       {'id': 'F', 'label': 'Datetime', 'type': 'datetime'},
     ];
-    obj['rows'] = [];
+    obj.rows = [];
 
     // 0
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'bbb'},
         {'v': null},
@@ -150,7 +146,7 @@ describe('DataUtils Test', () => {
     });
 
     // 1
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': null},
         {'v': null},
@@ -163,7 +159,7 @@ describe('DataUtils Test', () => {
     });
 
     // 2
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'aab'},
         {'v': 7},
@@ -176,7 +172,7 @@ describe('DataUtils Test', () => {
     });
 
     // 3
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'aaa'},
         {'v': -4.5},
@@ -189,7 +185,7 @@ describe('DataUtils Test', () => {
     });
 
     // 4
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': null},
         {'v': 7},
@@ -285,7 +281,7 @@ describe('DataUtils Test', () => {
 
   it('Gets sorted rows correctly', () => {
     const obj: TableSpec = {};
-    obj['cols'] = [
+    obj.cols = [
       {'id': 'A', 'label': 'Text', 'type': 'string'},
       {'id': 'B', 'label': 'Number', 'type': 'number'},
       {'id': 'C', 'label': 'Boolean', 'type': 'boolean'},
@@ -293,10 +289,10 @@ describe('DataUtils Test', () => {
       {'id': 'E', 'label': 'Timeofday', 'type': 'timeofday'},
       {'id': 'F', 'label': 'Datetime', 'type': 'datetime'},
     ];
-    obj['rows'] = [];
+    obj.rows = [];
 
     // 0
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'bbb'},
         {'v': null},
@@ -309,7 +305,7 @@ describe('DataUtils Test', () => {
     });
 
     // 1
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': null},
         {'v': null},
@@ -322,7 +318,7 @@ describe('DataUtils Test', () => {
     });
 
     // 1
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'aab'},
         {'v': 7},
@@ -335,7 +331,7 @@ describe('DataUtils Test', () => {
     });
 
     // 2
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'aaa'},
         {'v': -4.5},
@@ -348,7 +344,7 @@ describe('DataUtils Test', () => {
     });
 
     // 3
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': null},
         {'v': 7},
@@ -426,7 +422,7 @@ describe('DataUtils Test', () => {
     assertNotNull(res);
     assertEquals(0, res.length);
     const obj: TableSpec = {};
-    obj['cols'] = [
+    obj.cols = [
       {'id': 'A', 'label': 'Text', 'type': 'string'},
       {'id': 'B', 'label': 'Number', 'type': 'number'},
       {'id': 'C', 'label': 'Boolean', 'type': 'boolean'},
@@ -438,8 +434,8 @@ describe('DataUtils Test', () => {
       {'id': 'J', 'label': 'NoRepetitions', 'type': 'string'},
       {'id': 'H', 'label': 'NoNullsOrRepetitions', 'type': 'number'},
     ];
-    obj['rows'] = [];
-    obj['rows'].push({
+    obj.rows = [];
+    obj.rows.push({
       'c': [
         {'v': 'bbb'},
         {'v': null},
@@ -454,7 +450,7 @@ describe('DataUtils Test', () => {
       ],
       'p': {},
     });
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': null},
         {'v': null},
@@ -469,7 +465,7 @@ describe('DataUtils Test', () => {
       ],
       'p': {},
     });
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'aab'},
         {'v': 7},
@@ -484,7 +480,7 @@ describe('DataUtils Test', () => {
       ],
       'p': {},
     });
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'aaa'},
         {'v': -4.5},
@@ -499,7 +495,7 @@ describe('DataUtils Test', () => {
       ],
       'p': {},
     });
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': null},
         {'v': 7},
@@ -579,7 +575,7 @@ describe('DataUtils Test', () => {
 
   it('Gets filtered rows correctly', () => {
     const obj: TableSpec = {};
-    obj['cols'] = [
+    obj.cols = [
       {'id': 'A', 'label': 'Text', 'type': 'string'},
       {'id': 'B', 'label': 'Number', 'type': 'number'},
       {'id': 'C', 'label': 'Boolean', 'type': 'boolean'},
@@ -591,10 +587,10 @@ describe('DataUtils Test', () => {
       {'id': 'J', 'label': 'NoRepetitions', 'type': 'string'},
       {'id': 'H', 'label': 'NoNullsOrRepetitions', 'type': 'number'},
     ];
-    obj['rows'] = [];
+    obj.rows = [];
 
     // 0
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'bbb'},
         {'v': null},
@@ -611,7 +607,7 @@ describe('DataUtils Test', () => {
     });
 
     // 1
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': null},
         {'v': null},
@@ -628,7 +624,7 @@ describe('DataUtils Test', () => {
     });
 
     // 2
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'aab'},
         {'v': 7},
@@ -645,7 +641,7 @@ describe('DataUtils Test', () => {
     });
 
     // 3
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'aaa'},
         {'v': -4.5},
@@ -662,7 +658,7 @@ describe('DataUtils Test', () => {
     });
 
     // 4
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': null},
         {'v': 7},
@@ -762,7 +758,7 @@ describe('DataUtils Test', () => {
 
   it('Computes columnRange correctly', () => {
     const obj: TableSpec = {};
-    obj['cols'] = [
+    obj.cols = [
       {'id': 'A', 'label': 'Text', 'type': 'string'},
       {'id': 'B', 'label': 'Number', 'type': 'number'},
       {'id': 'C', 'label': 'Boolean', 'type': 'boolean'},
@@ -773,8 +769,8 @@ describe('DataUtils Test', () => {
       {'id': 'H', 'label': 'AlmostAllNulls1', 'type': 'string'},
       {'id': 'I', 'label': 'AlmostAllNulls2', 'type': 'number'},
     ];
-    obj['rows'] = [];
-    obj['rows'].push({
+    obj.rows = [];
+    obj.rows.push({
       'c': [
         {'v': 'bbb'},
         {'v': null},
@@ -788,7 +784,7 @@ describe('DataUtils Test', () => {
       ],
       'p': {},
     });
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': null},
         {'v': null},
@@ -802,7 +798,7 @@ describe('DataUtils Test', () => {
       ],
       'p': {},
     });
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'aab'},
         {'v': 7},
@@ -816,7 +812,7 @@ describe('DataUtils Test', () => {
       ],
       'p': {},
     });
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': 'aaa'},
         {'v': -4.5},
@@ -830,7 +826,7 @@ describe('DataUtils Test', () => {
       ],
       'p': {},
     });
-    obj['rows'].push({
+    obj.rows.push({
       'c': [
         {'v': null},
         {'v': 7},
@@ -854,16 +850,22 @@ describe('DataUtils Test', () => {
     const rangeG = dt.getColumnRange(6);
     const rangeH = dt.getColumnRange(7);
     const rangeI = dt.getColumnRange(8);
-    assertEquals('aaa', rangeA['min']);
-    assertEquals('bbb', rangeA['max']);
-    assertEquals(-4.5, rangeB['min']);
-    assertEquals(7, rangeB['max']);
-    assertEquals(false, rangeC['min']);
-    assertEquals(true, rangeC['max']);
-    assertEquals(new Date(2000, 5, 5).getTime(), rangeD['min'].getTime());
-    assertEquals(new Date(2005, 3, 4).getTime(), rangeD['max'].getTime());
-    const rangeEMin = rangeE['min'];
-    const rangeEMax = rangeE['max'];
+    assertEquals('aaa', rangeA.min);
+    assertEquals('bbb', rangeA.max);
+    assertEquals(-4.5, rangeB.min);
+    assertEquals(7, rangeB.max);
+    assertEquals(false, rangeC.min);
+    assertEquals(true, rangeC.max);
+    assertEquals(
+      new Date(2000, 5, 5).getTime(),
+      (rangeD.min as Date).getTime(),
+    );
+    assertEquals(
+      new Date(2005, 3, 4).getTime(),
+      (rangeD.max as Date).getTime(),
+    );
+    const rangeEMin = rangeE.min as Array<number | null>;
+    const rangeEMax = rangeE.max as Array<number | null>;
     assertEquals(5, rangeEMin[0]);
     assertEquals(20, rangeEMin[1]);
     assertEquals(30, rangeEMin[2]);
@@ -872,26 +874,26 @@ describe('DataUtils Test', () => {
     assertEquals(23, rangeEMax[2]);
     assertEquals(
       new Date(2000, 5, 5, 17, 20, 30).getTime(),
-      rangeF['min'].getTime(),
+      (rangeF.min as Date).getTime(),
     );
     assertEquals(
       new Date(2005, 3, 4, 5, 6, 7).getTime(),
-      rangeF['max'].getTime(),
+      (rangeF.max as Date).getTime(),
     );
-    assertEquals(null, rangeG['min']);
-    assertEquals(null, rangeG['max']);
-    assertEquals('foo', rangeH['min']);
-    assertEquals('foo', rangeH['max']);
-    assertEquals(8, rangeI['min']);
-    assertEquals(8, rangeI['max']);
+    assertEquals(null, rangeG.min);
+    assertEquals(null, rangeG.max);
+    assertEquals('foo', rangeH.min);
+    assertEquals('foo', rangeH.max);
+    assertEquals(8, rangeI.min);
+    assertEquals(8, rangeI.max);
 
     // Test min-max in a DataView.
     {
       const view = new DataView(dt);
       view.setColumns([1, 2, 5]);
       const rangeB = view.getColumnRange(0);
-      assertEquals(-4.5, rangeB['min']);
-      assertEquals(7, rangeB['max']);
+      assertEquals(-4.5, rangeB.min);
+      assertEquals(7, rangeB.max);
     }
   });
 

@@ -206,27 +206,22 @@ export class VegaChart extends VegaVisualization {
 
     this.processVegaSpec();
 
+    const eventListeners = options.inferValue('eventListeners') ?? {};
+    const signalListeners = options.inferValue('signalListeners') ?? {};
+
     const afterDrawing = (view: vega.View) => {
       this.chartEventDispatcher.dispatchEvent(ChartEventType.READY);
-      for (const [name, handler] of Object.entries(
-        userOptions.eventListeners ?? {},
-      )) {
+      for (const [name, handler] of Object.entries(eventListeners)) {
         view.addEventListener(name, handler as vega.EventListenerHandler);
       }
-      for (const [name, handler] of Object.entries(
-        userOptions.signalListeners ?? {},
-      )) {
+      for (const [name, handler] of Object.entries(signalListeners)) {
         view.addSignalListener(name, handler as vega.SignalListenerHandler);
       }
       this.clearListeners = () => {
-        for (const [name, handler] of Object.entries(
-          userOptions.eventListeners ?? {},
-        )) {
+        for (const [name, handler] of Object.entries(eventListeners)) {
           view.removeEventListener(name, handler as vega.EventListenerHandler);
         }
-        for (const [name, handler] of Object.entries(
-          userOptions.signalListeners ?? {},
-        )) {
+        for (const [name, handler] of Object.entries(signalListeners)) {
           view.removeSignalListener(
             name,
             handler as vega.SignalListenerHandler,

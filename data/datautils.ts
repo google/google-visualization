@@ -852,7 +852,7 @@ export function getColumnRange(
       }
     }
   }
-  return {'min': min, 'max': max};
+  return {min, max};
 }
 
 /**

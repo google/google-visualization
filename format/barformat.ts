@@ -17,7 +17,7 @@
  */
 
 import {AbstractDataTableInterface} from '../data/abstract_datatable_interface';
-import {ColumnType} from '../data/types';
+import {ColumnRange, ColumnType} from '../data/types';
 
 // tslint:disable:ban-types Migration
 // tslint:disable-next-line:no-any For use by external code.
@@ -84,25 +84,24 @@ export class BarFormat {
     // Compute min/max values and set range.
     let min = options['min'];
     let max = options['max'];
-    let range = null;
+    let range: ColumnRange | null = null;
     if (min == null || max == null) {
       range = dataTable.getColumnRange(columnIndex);
-      if (max == null) {
-        max = range['max'];
+      if (max == null && typeof range.max === 'number') {
+        max = range.max;
       }
-      if (min == null) {
+      if (min == null && typeof range.min === 'number') {
         min = Math.min(
-          0,
-          // Zero if all positive, or actual min.
-          range['min'],
+          0, // Zero if all positive, or actual min.
+          range.min || 0,
         );
       }
     }
     if (min >= max) {
       // Ignore min and max and use actual values
       range = range || dataTable.getColumnRange(columnIndex);
-      max = range['max'];
-      min = range['min'];
+      max = range.max;
+      min = range.min;
     }
     if (min === max) {
       // Make all bars empty
@@ -119,7 +118,7 @@ export class BarFormat {
     }
 
     // Make all bars full on the negative side
-    range = max - min;
+    const rangeSize = max - min;
 
     // Can not be zero here
 
@@ -138,7 +137,7 @@ export class BarFormat {
     }
 
     // Split the width to the positive area and the negative area.
-    const negativeWidth = Math.round(((base - min) / range) * width);
+    const negativeWidth = Math.round(((base - min) / rangeSize) * width);
     const positiveWidth = width - negativeWidth;
     for (let row = 0; row < dataTable.getNumberOfRows(); row++) {
       const value = Number(dataTable.getValue(row, columnIndex));
@@ -148,7 +147,7 @@ export class BarFormat {
       const clippedValue = Math.max(min, Math.min(max, value));
 
       // Find offset point of value
-      const offset = Math.ceil(((clippedValue - min) / range) * width);
+      const offset = Math.ceil(((clippedValue - min) / rangeSize) * width);
 
       // Numbers are right aligned, make bars left-aligned.
       html.push('<span class="google-visualization-formatters-bars">');
