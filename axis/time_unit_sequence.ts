@@ -9,7 +9,7 @@
  * decade, century, 1000 years and so on. If you go below second you get
  * tenth of a second, hundredth of a second, millisecond and so on.
  *
- * TODO(dlalibete): Consider breaking up and simplify this class.
+ * TODO(dlaliberte): Consider breaking up and simplify this class.
  *
  * @license
  * Copyright 2021 Google LLC

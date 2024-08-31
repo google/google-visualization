@@ -757,7 +757,7 @@ export class CoreChart extends AbstractVisualization {
     }
 
     // General options.
-    // TODO(trybka): switch gviz.canviz.Options to gviz.canviz.options. (i.e. as
+    // TODO(dlaliberte): switch gviz.canviz.Options to gviz.canviz.options. (i.e. as
     // a namespace).
     optionsLayers.push(DEFAULTS);
 
@@ -1506,7 +1506,7 @@ export class CoreChart extends AbstractVisualization {
     selection.setSelection(selected);
 
     // Validate selected cells.
-    // TODO(ebixon): Implement selection validation also for rows and columns.
+    // TODO(dlaliberte): Implement selection validation also for rows and columns.
     const selectedCells = selection.getCells();
     let foundSelectedAnnotation = false;
     for (let i = 0; i < selectedCells.length; i++) {
@@ -1544,7 +1544,7 @@ export class CoreChart extends AbstractVisualization {
         const annotation = (datumOrCategory as AnyDuringMigration).annotation;
         if (!annotation) {
           // Illegal selection: cannot select null annotations.
-          // TODO(ebixon): Our policy is not consistent, as we do allow
+          // TODO(dlaliberte): Our policy is not consistent, as we do allow
           // selection of null data values. Do we want to change this? Need to
           // re-think.
           return false;

@@ -52,7 +52,7 @@ export function define(
   let extremeValuesTextSize: definition.TextProperties;
   const numberFormat =
     drawingOptions.numberFormat || NumberFormat.DECIMAL_PATTERN;
-  // TODO(eilaty): Handle vertical orientation.
+  // TODO(dlaliberte): Handle vertical orientation.
   if (drawingOptions.orientation === types.Orientation.HORIZONTAL) {
     extremeValuesTextSize = calculateExtremeValuesTextProperties(
       colorScale,

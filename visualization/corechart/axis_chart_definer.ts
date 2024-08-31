@@ -437,7 +437,7 @@ export class AxisChartDefiner
     const domainsColumnStructure = columnStructure.domainsColumnStructure;
     for (let i = 0; i < dataView.getNumberOfRows(); i++) {
       const dataTableIdx = dataView.getTableRowIndex(i);
-      // TODO(badt): Extract all data.
+      // TODO(dlaliberte): Extract all data.
       const data = dataView.getValue(i, 0);
       const titles = domainsColumnStructure.map((domainColumnsStructure) => {
         const columnIndex = domainColumnsStructure.columns[DOMAIN][0];
@@ -632,7 +632,7 @@ export class AxisChartDefiner
     const baseTime = new Date(1900, 0, 1, 0, 0, 0).getTime();
     // 1000 ms/sec * 60 sec/min * 60 min/hr * 24 hr/day
     const timeScale = 1000 * 60 * 60 * 24;
-    // TODO(grabks): Remove this closure.
+    // TODO(dlaliberte): Remove this closure.
     const dateTransformDomain = (numericValue: AnyDuringMigration) => {
       numericValue -= baseTime;
       numericValue /= timeScale;
@@ -767,7 +767,7 @@ export class AxisChartDefiner
         // numbers, which reduces the risk of numeric overflow. This primarily
         // works because date-like axes don't support different scale types
         // (like log). Hence, the following todo:
-        // TODO(grabks): if/when date axes support log scale, this will break.
+        // TODO(dlaliberte): if/when date axes support log scale, this will break.
         if (isDomainDateLike) {
           transformDomain = dateTransformDomain;
           untransformDomain = dateUntransformDomain;
@@ -2856,7 +2856,7 @@ export class AxisChartDefiner
   private calcBarLikeLayout(seriesType: SerieType) {
     const chartDef = this.chartDef;
 
-    // TODO(trybka): Merge these into calcBars.
+    // TODO(dlaliberte): Merge these into calcBars.
     if (chartDef.isDiff) {
       this.calcDiffBars(seriesType);
     } else {
@@ -3615,7 +3615,7 @@ export class AxisChartDefiner
     const series = this.chartDef.series;
     for (let i = 0; i < series.length; i++) {
       const serie = series[i];
-      // TODO(eyalmc): Also support SCATTER series. This requires more complex
+      // TODO(dlaliberte): Also support SCATTER series. This requires more complex
       // handling as there may be several places where the view window cuts the
       // line instead of just one, and we are interested in the minimum and
       // maximum out of these.
@@ -3632,7 +3632,7 @@ export class AxisChartDefiner
           : new Coordinate(point!.nonScaled.d, point!.nonScaled.t),
       );
       const interpolateNulls = this.chartDef.interpolateNulls;
-      // TODO(eyalmc): Linear interpolation is an inaccurate estimate for curved
+      // TODO(dlaliberte): Linear interpolation is an inaccurate estimate for curved
       // lines, but it is still better than no estimate at all.
 
       const valueAtDomainMin = piecewiseLinearInterpolation(
@@ -4827,7 +4827,7 @@ export class AxisChartDefiner
       }
       formattedDataValue = `${formattedNewDataValue}
 ${formattedOldDataValue}`;
-      // TODO (cesarp) Add support for interval columns in diff mode.
+      // TODO(dlaliberte) Add support for interval columns in diff mode.
     } else {
       const dataColumns = serie.columns[DATA];
       const value = serie.isVirtual
@@ -5429,7 +5429,7 @@ ${formattedOldDataValue}`;
           .textBlock as canvizTextBlock.TextBlock,
       );
 
-      // TODO(ebixon): Clean-up this code. Reconsider the way we handle the case
+      // TODO(dlaliberte): Clean-up this code. Reconsider the way we handle the case
       // where one of the boxes are null, and the logic of testing for tick
       // confusion.
 
@@ -5964,7 +5964,7 @@ ${formattedOldDataValue}`;
       return null;
     }
 
-    // TODO(asc): The line width should match the stroke width of a hollow bar,
+    // TODO(dlaliberte): The line width should match the stroke width of a hollow bar,
     // but this requires access to the serie the candlestick belongs to.
     const position = this.getFunctionPositionByPhysicalPositions(
       line.left,
@@ -6000,7 +6000,7 @@ ${formattedOldDataValue}`;
     // Since we wish bars to have the same size regardless of whether they are
     // hollow or full we shrink hollow bars so that together with the stroke
     // they will match the size of a full bar and not exceed it.
-    // TODO(eyalmc): This is a general graphics utility that should be placed in
+    // TODO(dlaliberte): This is a general graphics utility that should be placed in
     // a more appropriate location. Make sure we handle cases in which the
     // stroke has to be reduced (since the size of the box is lower than the
     // stroke width.
@@ -6095,7 +6095,7 @@ ${formattedOldDataValue}`;
     // Since we wish bars to have the same size regardless of whether they are
     // hollow or full we shrink hollow bars so that together with the stroke
     // they will match the size of a full bar and not exceed it.
-    // TODO(eyalmc): This is a general graphics utility that should be placed in
+    // TODO(dlaliberte): This is a general graphics utility that should be placed in
     // a more appropriate location. Make sure we handle cases in which the
     // stroke has to be reduced (since the size of the box is lower than the
     // stroke width.
@@ -6163,7 +6163,7 @@ ${formattedOldDataValue}`;
 
   /**
    * Bar chart scaling, but without margin between bars.
-   * TODO(bmccann|eyalmc): Combine with scaleBarChart.
+   * TODO(dlaliberte): Combine with scaleBarChart.
    *
    * @param serie The serie.
    * @param nonScaledPoint The column to scale.
@@ -6173,7 +6173,7 @@ ${formattedOldDataValue}`;
     serie: SerieDefinition,
     nonScaledPoint: NonScaledDatumDefinition,
   ): ScaledDatumDefinition | null {
-    // TODO(eyalmc): This has nothing to do with scaling. Move to calc phase.
+    // TODO(dlaliberte): This has nothing to do with scaling. Move to calc phase.
     const targetAxis = this.getTargetAxisDefiner(serie.targetAxisIndex);
     if (nonScaledPoint.from == null) {
       nonScaledPoint.from = targetAxis.valueScale!.valueToNumber(
@@ -6215,7 +6215,7 @@ ${formattedOldDataValue}`;
     }
 
     // Target from/to (assuming horizontal orientation).
-    // TODO(eyalmc): Why only floor domain values to integers and ignore target
+    // TODO(dlaliberte): Why only floor domain values to integers and ignore target
     // values (moreover doing so before taking orientation into account).
     const targetFrom = targetAxis.calcPositionForNumericValue(
       nonScaledPoint.from,
@@ -6250,7 +6250,7 @@ ${formattedOldDataValue}`;
     // step has a negative value. Therefore we choose the lesser of two evils,
     // and place the outline on the border of the step.
     const outline = [];
-    // TODO(eyalmc): Add to chart definition instead of inferring over and over.
+    // TODO(dlaliberte): Add to chart definition instead of inferring over and over.
     const connectSteps = this.options.inferBooleanValue('connectSteps', true);
     if (connectSteps) {
       // Do not connect the first step of a serie, or the first step following a

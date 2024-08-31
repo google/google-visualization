@@ -394,7 +394,7 @@ export class PieChartBuilder extends ChartBuilder {
 
   /**
    * Draws a single pie chart donut into a given drawing group.
-   * TODO(eyalmc): Create a typedef for donuts.
+   * TODO(dlaliberte): Create a typedef for donuts.
    * @param donut The donut.
    *     Expected properties are: tip, fromPixel, radiusX, radiusY, fromDegrees,
    * toDegrees, isWholeCircle, brush.
@@ -481,7 +481,7 @@ export class PieChartBuilder extends ChartBuilder {
 
     // First revert all changes done in the previous call to this function, then
     // apply the changes of the new refresh layer to the original chart.
-    // TODO(eyalmc): If an element is in both the drawn and the new refresh
+    // TODO(dlaliberte): If an element is in both the drawn and the new refresh
     // layers then we redraw it twice instead of once. If it is the same in both
     // layers then we actually redraw it twice instead of just leaving it as is.
     this.revertChartContentChanges(baseLayer);

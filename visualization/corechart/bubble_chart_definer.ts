@@ -55,13 +55,13 @@ import {ColorGroups} from './chart_definition_types';
 export class BubbleChartDefiner {
   /**
    * Default bubble opacity.
-   * TODO(yuvalr): Make it configurable in the options.
+   * TODO(dlaliberte): Make it configurable in the options.
    */
   static DEFAULT_BUBBLE_OPACITY = 0.8;
 
   /**
    * Default bubble stroke color.
-   * TODO(yuvalr): Make it configurable in the options.
+   * TODO(dlaliberte): Make it configurable in the options.
    */
   static DEFAULT_BUBBLE_STROKE = '#ccc';
 
@@ -190,7 +190,7 @@ export class BubbleChartDefiner {
     const chartDef = this.chartDef;
     const dataView = this.dataView;
 
-    // TODO(yuvalr): Move data format code to the data format library.
+    // TODO(dlaliberte): Move data format code to the data format library.
 
     const numOfCols = dataView.getNumberOfColumns();
     if (numOfCols < 3) {
@@ -311,7 +311,7 @@ export class BubbleChartDefiner {
       if (yNumeric != null) {
         vAxis.markClosestValueToZero(yNumeric);
       }
-      // TODO(johann): Size is not taken care of here.
+      // TODO(dlaliberte): Size is not taken care of here.
     }
   }
 

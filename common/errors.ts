@@ -389,7 +389,7 @@ export function initUserParams(
  * Validates the given container is not null and is a dom node.
  * Compiler should automatically validate in most cases, so this function
  * is applicable when loading Google Charts dynamically.
- * TODO(daliberte): Merge with gvizDom.validateContainer.
+ * TODO(dlaliberte): Merge with gvizDom.validateContainer.
  *
  * @param container The container specified by the user.
  * @return True if the container is valid, false otherwise.

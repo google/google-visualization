@@ -50,7 +50,7 @@ export const DEFAULTS = {
 
 /**
  * Checks if the cursor is in the chart.
- * TODO(cuiffo?): Explore better types for params.
+ * TODO(dlaliberte): Explore better types for params.
  * @param event The event data.
  * @param bounds The bounds of the chart.
  */

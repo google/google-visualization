@@ -378,7 +378,7 @@ export abstract class ChartDefiner {
           chartType !== ChartType.PIE &&
           chartType !== ChartType.BUBBLE
         ) {
-          // TODO(grabks): Make an option to configure icon width scale
+          // TODO(dlaliberte): Make an option to configure icon width scale
           // factor.
           legendIconWidthScaleFactor = 2;
         }

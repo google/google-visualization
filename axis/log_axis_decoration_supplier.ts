@@ -486,7 +486,7 @@ export class LogAxisDecorationSupplier {
     let numSteps;
     // Reset the numSteps sequence to 1.
     this.steppingSequence.floor(1);
-    // TODO(martino): Since 1 is the lowest value the numSteps may have, this
+    // TODO(dlaliberte): Since 1 is the lowest value the numSteps may have, this
     // finder will always end up with the power of 10 lines even if they
     // will be drawn closer to each other than the minScreenDistance.
 

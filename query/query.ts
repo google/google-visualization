@@ -506,7 +506,7 @@ export class Query implements AbstractQuery {
             // tslint:disable-next-line:ban-eval-calls
             // safeGlobal.globalEval(
             //   window,
-            //   // FIXME:
+            //   // TODO(dlaliberte):
             //   // Construct from literals instead of `${responseText}`,
             //   // see the corresponding entries in go/ts-dom-sink.
             //   safeScript`${responseText}`,
@@ -863,7 +863,7 @@ export class Query implements AbstractQuery {
         // Should be disabled since JSONP is not safe.
         // safeGlobal.globalEval(
         //   window,
-        //   // FIXME:
+        //   // TODO(dlaliberte):
         //   // Construct from literals instead of `${makeRequestResponse['data']}`,
         //   // see the corresponding entries in go/ts-dom-sink.
         //   safeScript`${makeRequestResponse['data']}`,

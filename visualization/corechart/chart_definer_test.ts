@@ -1063,7 +1063,7 @@ describe('ChartDefiner', () => {
       width: 400,
       height: 200,
     };
-    // TODO(ebixon): define expected results from test case #1. Currently we
+    // TODO(dlaliberte): define expected results from test case #1. Currently we
     // only run the visual test.
     testcase.result = DONT_COMPARE;
     runChartDefinerTestCase(testcase);
@@ -3655,7 +3655,7 @@ describe('ChartDefiner', () => {
   });
 
   /**
-   * TODO(yrsun): test that when a custom tooltip function is given to a
+   * TODO(dlaliberte): test that when a custom tooltip function is given to a
    * datatable column, the tooltip HTML content creation for table cells is
    * deferred until tooltip triggering events. CL/239453648.
    */
@@ -3888,7 +3888,7 @@ describe('ChartDefiner', () => {
 
     assertTrue(scaledBarTop.top < scaledBarBottom.top);
 
-    // TODO(avrahamy): Intervals are being scaled as crisp rectangles, which
+    // TODO(dlaliberte): Intervals are being scaled as crisp rectangles, which
     // does not make sense and causes the top bar to sometimes be separated from
     // the stick by less than half a pixel. This whole intervals scaling will be
     // fixed in another CL soon.

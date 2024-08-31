@@ -259,7 +259,7 @@ export class HorizontalAxisDefiner extends AxisDefiner {
     const predefinedTickTextLayout = this.tickTextLayout != null;
 
     if (this.index !== 0) {
-      // TODO(badt): Implement this case.
+      // TODO(dlaliberte): Implement this case.
       return;
     }
     const measureFunction = this.chartDef.textMeasureFunction;
@@ -381,7 +381,7 @@ export class HorizontalAxisDefiner extends AxisDefiner {
       Infinity,
     );
 
-    // TODO(trybka): uncomment out when full chartDef.canvas object is ready.
+    // TODO(dlaliberte): uncomment out when full chartDef.canvas object is ready.
     // this.chartDef.canvas.width, Infinity);
 
     // Some constants.
@@ -831,7 +831,7 @@ export class HorizontalAxisDefiner extends AxisDefiner {
 
   calcInsideTextLayout() {
     if (this.index !== 0) {
-      // TODO(badt): Implement this case.
+      // TODO(dlaliberte): Implement this case.
       return;
     }
     const measureFunction = this.chartDef.textMeasureFunction;

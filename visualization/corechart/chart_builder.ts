@@ -260,7 +260,7 @@ export abstract class ChartBuilder {
 
     // Create a dedicated group for tooltips, we append the group _after_
     // drawing the chart so the tooltips end up at the top.
-    // TODO(eyalmc): Allow lazy creation if tooltips are never triggered.
+    // TODO(dlaliberte): Allow lazy creation if tooltips are never triggered.
     this.tooltipDrawingGroup = renderer.createGroup(false);
 
     // Draw the chart itself.
@@ -286,7 +286,7 @@ export abstract class ChartBuilder {
    * @param refreshLayer Very similar to a ChartDefinition, the refresh layer
    *     specifies only the properties whose value should override the one given
    *     in base layer.
-   * TODO(eyalmc): For compatibility with drawChart(), we should change this
+   * TODO(dlaliberte): For compatibility with drawChart(), we should change this
    * function to return a boolean indicating success. Alternatively, we can
    * change drawChart() to raise an exception instead and eliminate the boolean.
    */
@@ -313,7 +313,7 @@ export abstract class ChartBuilder {
       this.drawChart(baseLayer, refreshLayer);
       return;
     }
-    // TODO(eyalmc): We need to update this.chartDefinition to take the new
+    // TODO(dlaliberte): We need to update this.chartDefinition to take the new
     // refresh layer into account. Right now we draw according to the previous
     // chart definition, which means that changes to certain properties in the
     // interactivity layer (isStacked, interpolateNulls, etc.) will be ignored.
@@ -351,7 +351,7 @@ export abstract class ChartBuilder {
       return;
     }
 
-    // TODO(eyalmc): Instead of asserting that the legend position stays the
+    // TODO(dlaliberte): Instead of asserting that the legend position stays the
     // same, move the legend group to the correct location in the DOM.
     asserts.assert(
       !refreshLayer.legend ||
@@ -500,8 +500,8 @@ export abstract class ChartBuilder {
         .filter((item) => item != null) as Box[];
       legendBoundingBox = commonUtilCalcBoundingBox(legendEntryBoundingBoxes);
     }
-    // TODO(eyalmc): Add a bit of extra padding around the legend once
-    // hoppenheim@ comes up with the exact specification.
+    // TODO(dlaliberte): Add a bit of extra padding around the legend once
+    // we come up with the exact specification.
     if (legendBoundingBox) {
       const legendBoundingRect = GoogRect.createFromBox(legendBoundingBox);
       asserts.assert(this.legendDrawingGroup != null);
@@ -551,8 +551,8 @@ export abstract class ChartBuilder {
       );
     }
 
-    // TODO(eyalmc): Add a bit of extra padding around every legend entry once
-    // hoppenheim@ comes up with the exact specification, and leave no dead
+    // TODO(dlaliberte): Add a bit of extra padding around every legend entry once
+    // we come up with the exact specification, and leave no dead
     // space between entries.
 
     return commonUtilCalcBoundingBox(legendEntryItemsBoundingBoxes);
@@ -1299,7 +1299,7 @@ export abstract class ChartBuilder {
   protected deleteElementByID(elementID: string) {
     const element = this.idToElementMapping[elementID];
     if (element) {
-      // TODO(eyalmc): Should perform faster if we specify the parent.
+      // TODO(dlaliberte): Should perform faster if we specify the parent.
       this.renderer.removeElement(element);
       delete this.idToElementMapping[elementID];
     }

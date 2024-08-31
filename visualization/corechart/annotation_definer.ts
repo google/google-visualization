@@ -387,7 +387,7 @@ export class AnnotationDefiner {
             textStyle = googObject.clone(serieAnnotationTextStyle) as TextStyle;
 
             // Give the text style a higher contrast color.
-            // TODO(trybka): Rip this out into a helper method.
+            // TODO(dlaliberte): Rip this out into a helper method.
             const factors = [0.1, 0.2, 0.3];
             const rgbDatumColor = googColor.hexToRgb(datumColor);
             const bgColor = googColor.hexToRgb(
@@ -526,7 +526,7 @@ export class AnnotationDefiner {
     if (annotationColumns == null) {
       return annotations;
     }
-    // TODO(eyalmc): Deprecate ANNOTATION_TEXT role. Replace it TOOLTIP.
+    // TODO(dlaliberte): Deprecate ANNOTATION_TEXT role. Replace it TOOLTIP.
     const tooltipColumns = roleToColumns[ColumnRole.ANNOTATION_TEXT] || [];
     for (let i = 0; i < annotationColumns.length; ++i) {
       const annotationColumn = annotationColumns[i];
@@ -760,7 +760,7 @@ export class AnnotationDefiner {
         ];
         label.angle = 0;
 
-        // TODO(trybka): push tooltip stuff on labels in bars.
+        // TODO(dlaliberte): push tooltip stuff on labels in bars.
         const tooltipColumnIndex = annotation.tooltipColumnIndex;
         if (this.chartDefiner.isTooltipEnabled()) {
           if (tooltipColumnIndex != null) {

@@ -441,7 +441,7 @@ export class PieChartDefiner extends ChartDefiner {
     let centerY = Math.round((pieBoundingBox.bottom + pieBoundingBox.top) / 2);
 
     if (chartDef.is3D) {
-      // TODO(amitw): Maybe allow the user to choose the pie height and angle in
+      // TODO(dlaliberte): Maybe allow the user to choose the pie height and angle in
       // which we see the pie.
       radiusY = radiusY * 0.8;
       pieHeight = radiusX / 5;

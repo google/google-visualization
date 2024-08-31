@@ -95,7 +95,7 @@ declare interface MouseKeyConfig {
 
 /**
  * Key modifiers during mouse events. See DOM MouseEvent Properties:
- * http://go/mdn/API/MouseEvent
+ * mdn/API/MouseEvent
  */
 const [ALTKEY, CTRLKEY, METAKEY, SHIFTKEY] = [
   'altKey',

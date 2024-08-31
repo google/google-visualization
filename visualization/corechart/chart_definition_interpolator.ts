@@ -490,7 +490,7 @@ export class ChartDefinitionInterpolator {
     const categories1 = this.chartDef1.categories;
     const categories2 = this.chartDef2.categories;
     if (!categories1 || !categories2) {
-      // TODO(avrahamy): Handle empty data better.
+      // TODO(dlaliberte): Handle empty data better.
       return;
     }
 
@@ -1145,7 +1145,7 @@ export class ChartDefinitionInterpolator {
         // Suppressing errors for ts-migration.
         //   TS2322: Type 'number' is not assignable to type 'T'.
         // ts-ignore was either removed or relocated below
-// @ts-ignore inserted
+        // @ts-ignore inserted
         return Infinity;
       }
       // Suppressing errors for ts-migration.

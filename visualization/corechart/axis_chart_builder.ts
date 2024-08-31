@@ -281,7 +281,7 @@ export class AxisChartBuilder extends ChartBuilder {
     this.renderTooltips();
 
     // Create clipping rectangle for some groups in the chart area.
-    // TODO(eyalmc): Clip every parent group separately so that precedence will
+    // TODO(dlaliberte): Clip every parent group separately so that precedence will
     // be taken into account when one element is INSIDE and the other one
     // CLIPPED. The drawing group should be used to append child elements and
     // the clipping element should be used to append the drawing group as a
@@ -413,7 +413,7 @@ export class AxisChartBuilder extends ChartBuilder {
     info[Token.PATH_INTERVAL] = {position: DrawingGroupPosition.CLIPPED};
     // Lazy creation is disallowed because points may show up as a result of
     // interaction.
-    // TODO(eyalmc): Allow lazy creation if interactivity is completely
+    // TODO(dlaliberte): Allow lazy creation if interactivity is completely
     // disabled.
     // Suppressing errors for ts-migration.
     //   TS2741: Property 'drawingGroup' is missing in type '{ position: AxisChartBuilderDrawingGroupPosition.INSIDE; allowLazyCreation: false; }' but required in type 'AxisChartBuilderDrawingGroupInfo'.
@@ -448,7 +448,7 @@ export class AxisChartBuilder extends ChartBuilder {
     // @ts-ignore
     info[Token.TITLE] = {position: titlePosition};
 
-    // TODO(eyalmc): Right now we always put the axis ticks INSIDE, which also
+    // TODO(dlaliberte): Right now we always put the axis ticks INSIDE, which also
     // works when they are outside the chart area, because we do not clip them.
     // Obviously, we want to put ticks which are outside the chart area OUTSIDE.
     // There are two things we have to do:
@@ -715,7 +715,7 @@ export class AxisChartBuilder extends ChartBuilder {
     serie: chartDefinitionTypes.SerieDefinition,
     serieIndex: number,
   ) {
-    // TODO(eyalmc): When serie type is bars store data under 'bars' instead of
+    // TODO(dlaliberte): When serie type is bars store data under 'bars' instead of
     // 'points', or alternatively always store under 'data'.
     for (let i = 0; i < serie.points.length; i++) {
       this.drawBar(serie, serieIndex, serie.points[i], i);
@@ -1174,7 +1174,7 @@ export class AxisChartBuilder extends ChartBuilder {
 
   /**
    * Draws a path and its points for a line/area/scatter serie.
-   * TODO(eyalmc): Hang events on the path element.
+   * TODO(dlaliberte): Hang events on the path element.
    * @param serie The serie to draw the path for.
    * @param serieIndex The index of the serie.
    * @param interpolateNulls Whether null data points are interpolated.
@@ -1198,7 +1198,7 @@ export class AxisChartBuilder extends ChartBuilder {
     const pathSegments = createPathSegments(serie, interpolateNulls);
     if (isEmpty(pathSegments.segments)) {
       // No point in drawing a line with no points.
-      // TODO(eyalmc): In fact, we may want to delete the existing line.
+      // TODO(dlaliberte): In fact, we may want to delete the existing line.
       return;
     }
 
@@ -1554,7 +1554,7 @@ export class AxisChartBuilder extends ChartBuilder {
     sensitivityAreasDrawingGroup: DrawingGroup | null,
     interpolateNulls?: boolean,
   ) {
-    // TODO(eyalmc): If the point should not be drawn (null, invisible or
+    // TODO(dlaliberte): If the point should not be drawn (null, invisible or
     // outside the chart area) as a result of interaction, then we need to
     // delete the existing point element. However, calling deleteElementByID()
     // will cause the point to lose its original z-index on the next call to
@@ -2344,7 +2344,7 @@ export class AxisChartBuilder extends ChartBuilder {
   ) {
     // First revert all changes done in the previous call to this function, then
     // apply the changes of the new refresh layer to the original chart.
-    // TODO(eyalmc): If an element is in both the drawn and the new refresh
+    // TODO(dlaliberte): If an element is in both the drawn and the new refresh
     // layers then we redraw it twice instead of once. If it is the same in both
     // layers then we actually redraw it twice instead of just leaving it as is.
     this.revertChartContentChanges(baseLayer);

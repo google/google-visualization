@@ -152,7 +152,7 @@ export abstract class AxisDefiner {
   /**
    * A flag indicating the axis is allowed to truncate the data (is set to
    * true for charts containing bars series since bars have a minimal width).
-   * TODO(badt): think of implications on mixed chart type.
+   * TODO(dlaliberte): think of implications on mixed chart type.
    */
   allowDataTruncation: boolean;
 
