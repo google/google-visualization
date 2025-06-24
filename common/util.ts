@@ -16,14 +16,63 @@
  * limitations under the License.
  */
 
-import * as googArray from '@npm//@closure/array/array';
-import * as asserts from '@npm//@closure/asserts/asserts';
-import * as functions from '@npm//@closure/functions/functions';
-import {Box} from '@npm//@closure/math/box';
-import {Coordinate} from '@npm//@closure/math/coordinate';
-import {Line} from '@npm//@closure/math/line';
-import {Range} from '@npm//@closure/math/range';
-import {Vec2} from '@npm//@closure/math/vec2';
+// This file is mostly obsolete, since it is replaced by several other *-utils.ts
+
+// Looking at the remaining functions in `common/util.ts`,
+// here are the ones that haven't been moved to other utility files yet:
+
+// ## Search/Lookup Functions:
+// - `closestValueTo`
+// - `extrapolatedClosestValueTo`
+// - `findClosestValue`
+
+// ## Range/Box Functions:
+// - `extendRangeToInclude`
+// - `getOverriddenRange`
+// - `calcBoundingBox`
+// - `RangeCompat` class
+
+// ## Array Merging:
+// - `mergeArrays`
+
+// ## Numeric/Math Functions:
+// - `roughlyEquals`
+// - `countRequiredDecimalPrecision`
+// - `getExponent`
+// - `roundToNumSignificantDigits`
+
+// ## Algorithm Functions:
+// - `calcEditDistance` and related helpers
+// - `fillFirstNBuckets`
+// - `fillCommunicatingVessels`
+// - `distributeRealEstate`
+// - `distributeRealEstateWithKeys`
+
+// ## Utility Functions:
+// - `rangeMap`
+// - `getPieChartColorMapping`
+// - `arrayMultiSlice`
+// - `containsNoOtherProperties`
+// - `concatSuffix`
+
+// These could be organized into files like:
+// - `common/search-utils.ts` (search/lookup functions)
+// - `common/range-utils.ts` (range and box utilities)
+// - `common/merge-utils.ts` (array merging)
+// - `common/math-utils.ts` (numeric/precision functions)
+// - `common/algorithm-utils.ts` (complex algorithms like edit distance, bucket filling)
+// - `common/misc-utils.ts` (remaining utility functions)
+
+// Which category would you like to tackle first?
+
+import { assert, NonEmptyArray } from 'ts-essentials';
+import * as A from 'fp-ts/Array';
+import * as O from 'fp-ts/Option';
+import { pipe } from 'fp-ts/function';
+import { identity } from 'fp-ts/function';
+
+// Vector math utilities from Three.js
+import { Vector2, Vector3, Box2, Box3, Line3 } from 'three';
 
 // tslint:disable:no-unnecessary-type-assertion Migration
 // tslint:disable:restrict-plus-operands Migration
@@ -32,10 +81,37 @@ import {Vec2} from '@npm//@closure/math/vec2';
 type AnyDuringMigration = any;
 
 // Like Coordinate
-// TODO: Maybe use Coordinate throughout.
 interface XYPair {
-  x: number;
-  y: number;
+  readonly x: number;
+  readonly y: number;
+}
+
+
+// More specific types for better type safety
+type NumericArray = NonEmptyArray<number>;
+type CompareFunction = <T>(p1: T, p2: T) => number;
+
+// Replace Vec2 with Three.js Vector2, but keep compatibility
+type Vec2 = Vector2;
+type Coordinate = Vector2;
+// type Range = { start: number; end: number };
+type Box = Box2;
+type Line = Line3;
+
+// Compatibility adapters for math utilities
+export class RangeCompat {
+  constructor(public start: number, public end: number) {}
+
+  static boundingRange(range1: RangeCompat, range2: RangeCompat): RangeCompat {
+    return new RangeCompat(
+      Math.min(range1.start, range2.start),
+      Math.max(range1.end, range2.end)
+    );
+  }
+
+  clone(): RangeCompat {
+    return new RangeCompat(this.start, this.end);
+  }
 }
 
 /**
@@ -62,11 +138,9 @@ export function numberOrNull(str: string | null): number | null {
 /**
  * Removes the first element of an array. A convenience function.
  * @param array The array.
- * @return The array without its first element.
+ * @return A copy of the array without its first element.
  */
-export function removeFirstElement(
-  array: AnyDuringMigration[],
-): AnyDuringMigration[] {
+export function removeFirstElement<T>(array: NonEmptyArray<T>): T[] {
   return array.slice(1);
 }
 
@@ -75,9 +149,7 @@ export function removeFirstElement(
  * @param array The array.
  * @return The array without its last element.
  */
-export function removeLastElement(
-  array: AnyDuringMigration[],
-): AnyDuringMigration[] {
+export function removeLastElement<T>(array: NonEmptyArray<T>): T[] {
   return array.slice(0, array.length - 1);
 }
 
@@ -91,7 +163,6 @@ export function absNumericDiff(value1: number, value2: number): number {
   return Math.abs(value1 - value2);
 }
 
-type CompareFunction = <T>(p1: T, p2: T) => number;
 
 /**
  * Returns true iff both arrays have the same length, and for each index, the
@@ -106,9 +177,9 @@ type CompareFunction = <T>(p1: T, p2: T) => number;
  *     difference between them.
  * @return See above.
  */
-export function arraysAlmostEqual(
-  a1: AnyDuringMigration[],
-  a2: AnyDuringMigration[],
+export function arraysAlmostEqual<T>(
+  a1: T[] | null,
+  a2: T[] | null,
   tolerance: number,
   diffFunc?: CompareFunction,
 ): boolean {
@@ -121,8 +192,8 @@ export function arraysAlmostEqual(
   if (a1.length !== a2.length) {
     return false;
   }
-  diffFunc = diffFunc || (absNumericDiff as CompareFunction);
-  return a1.every((obj, i) => diffFunc(a1[i], a2[i]) <= tolerance);
+  const diff = diffFunc || (absNumericDiff as CompareFunction);
+  return a1.every((obj, i) => diff(a1[i], a2[i]) <= tolerance);
 }
 
 /**
@@ -138,20 +209,19 @@ export function arraysAlmostEqual(
  *     difference between them.
  * @return See above.
  */
-export function objectsAlmostEqual(
-  obj1: {[key: string]: AnyDuringMigration},
-  obj2: {[key: string]: AnyDuringMigration},
+export function objectsAlmostEqual<T extends Record<string, any>>(
+  obj1: T | null,
+  obj2: T | null,
   tolerance: number,
   diffFunc?: CompareFunction,
 ): boolean {
   if (!obj1 || !obj2) {
     return true;
   }
-  diffFunc = diffFunc || (absNumericDiff as CompareFunction);
-  return Object.entries(obj1).every((entry) => {
-    const [key, value1] = entry;
+  const diff = diffFunc || (absNumericDiff as CompareFunction);
+  return Object.entries(obj1).every(([key, value1]) => {
     const value2 = obj2[key];
-    return obj2[key] === undefined || diffFunc(value1, value2) <= tolerance;
+    return obj2[key] === undefined || diff(value1, value2) <= tolerance;
   });
 }
 
@@ -242,20 +312,20 @@ export function phaseTangentCalculator(
   vectorToNext: Vec2,
   smoothingFactor: number,
 ): Vec2 {
-  const magnitudeFromPrevious = vectorFromPrevious.magnitude();
-  const magnitudeToNext = vectorToNext.magnitude();
+  const magnitudeFromPrevious = vectorFromPrevious.length();
+  const magnitudeToNext = vectorToNext.length();
   if (magnitudeFromPrevious === 0 || magnitudeToNext === 0) {
-    return new Vec2(0, 0);
+    return new Vector2(0, 0);
   } else {
     // Tangent = (sf / 3) * sqrt(|v1| * |v2|) * (v1 / |v1| + v2 / |v2|) / 2
     // = (sf / 6) * (v1 * sqrt(|v2| / |v1|) + v2 * sqrt(|v1| / |v2|))
     // (where sf is smoothingFactor)
     const srqtRatio = Math.sqrt(magnitudeFromPrevious / magnitudeToNext);
-    const vectorSum = Vec2.sum(
-      vectorFromPrevious.clone().scale(1 / srqtRatio),
-      vectorToNext.clone().scale(srqtRatio),
+    const vectorSum = vec2Sum(
+      vectorFromPrevious.clone().multiplyScalar(1 / srqtRatio),
+      vectorToNext.clone().multiplyScalar(srqtRatio),
     );
-    vectorSum.scale(smoothingFactor / 6);
+    vectorSum.multiplyScalar(smoothingFactor / 6);
     return vectorSum;
   }
 }
@@ -299,7 +369,7 @@ export function calculateControlPoints(
   // Iterate all points and calculate surrounding control points using the
   // above method to calculate the tangent at each point according to the
   // curve type.
-  const result = [];
+  const result: Array<Vec2[] | null> = [];
   for (let i = 0; i < points.length; ++i) {
     let nextIndex;
     let previousIndex;
@@ -320,13 +390,13 @@ export function calculateControlPoints(
       points[nextIndex] != null
     ) {
       const tangent = tangentCalculator(
-        Vec2.difference(points[i], points[previousIndex]),
-        Vec2.difference(points[nextIndex], points[i]),
+        vec2Difference(points[i], points[previousIndex]),
+        vec2Difference(points[nextIndex], points[i]),
         smoothingFactor,
       ) as Coordinate;
       result.push([
-        Vec2.difference(points[i], tangent),
-        Vec2.sum(points[i], tangent),
+        vec2Difference(points[i], tangent),
+        vec2Sum(points[i], tangent),
       ]);
     } else if (points[i] != null) {
       result.push([points[i].clone(), points[i].clone()]);
@@ -335,6 +405,19 @@ export function calculateControlPoints(
     }
   }
   return result;
+}
+
+// Vector2 extensions for compatibility
+export function createVec2(x: number, y: number): Vector2 {
+  return new Vector2(x, y);
+}
+
+export function vec2Difference(v1: Vector2, v2: Vector2): Vector2 {
+  return v1.clone().sub(v2);
+}
+
+export function vec2Sum(v1: Vector2, v2: Vector2): Vector2 {
+  return v1.clone().add(v2);
 }
 
 /**
@@ -487,12 +570,12 @@ export function extrapolatedClosestValueTo(
  * @param obj The object to be used as the value of 'this' within f.
  * @return An array of the results of invoking f on the indices.
  */
-export function rangeMap(
+export function rangeMap<T>(
   length: number,
-  f: (p1: number) => AnyDuringMigration,
+  f: (p1: number) => T,
   obj?: AnyDuringMigration,
-): AnyDuringMigration[] {
-  const res = [];
+): T[] {
+  const res: T[] = [];
   for (let i = 0; i < length; i++) {
     res[i] = f.call(obj, i);
   }
@@ -622,12 +705,12 @@ export function fillFirstNBuckets(
   // The last value if penalty will be applied.
   while (idx < buckets.length) {
     const bucketMin = buckets[idx].min;
-    asserts.assert(
+    assert(
       bucketMin >= 0,
       'bucket.min size must be a non-negative number',
     );
     const bucketMax = getMaxOrMin(buckets[idx]);
-    asserts.assert(
+    assert(
       bucketMax >= bucketMin,
       'bucket.max size must be larger than or equal to bucket.min',
     );
@@ -673,7 +756,7 @@ export function fillFirstNBuckets(
  *     extracted from each item using the getSize function.
  * @param total The amount that is used to fill the buckets.
  * @param getSize A function that accepts a bucket from 'buckets'
- *     and returns the size of that bucket.  Defaults to functions.identity.
+ *     and returns the size of that bucket.  Defaults to identity.
  * @return Object with 'waterLevel' and 'remainder'
  *     The 'waterlevel' is the height of the bucket that was
  *     most filled. All other buckets are smaller or equal to that bucket,
@@ -685,7 +768,7 @@ export function fillCommunicatingVessels(
   total: number,
   getSize?: (p1: AnyDuringMigration) => number,
 ): {waterLevel: number; remainder: number} {
-  getSize = getSize || functions.identity;
+  getSize = getSize || identity;
   const sizes = buckets.map(getSize);
   // Sort in ascending order.
   sizes.sort((a, b) => {
@@ -880,7 +963,7 @@ export function arrayMultiSlice(
   arr: AnyDuringMigration[],
   ...sliceArgs: number[]
 ): AnyDuringMigration[] {
-  asserts.assert(sliceArgs.length % 2 === 0);
+  assert(sliceArgs.length % 2 === 0);
   const result: AnyDuringMigration[] = [];
   for (let i = 0; i < sliceArgs.length; i += 2) {
     const beginIdx = Math.min(sliceArgs[i], arr.length);
@@ -943,9 +1026,9 @@ export function roundToNumSignificantDigits(
   if (value === 0 || Math.abs(value) < 1e-290) {
     return value;
   }
-  asserts.assert(numSignificantDigits > 0, 'numSignificantDigits must be > 0');
+  assert(numSignificantDigits > 0, 'numSignificantDigits must be > 0');
 
-  asserts.assert(
+  assert(
     isFinite(numSignificantDigits),
     'numSignificantDigits must be > 0',
   );
@@ -1030,7 +1113,15 @@ function calcEditDistanceStep(
   key2: number | null;
   value2: number | null;
 } {
-  const results = [];
+
+  const results: Array<{
+    pathLink: AnyDuringMigration;
+    score: number;
+    key1: number | null;
+    value1: number | null;
+    key2: number | null;
+    value2: number | null;
+  }> = [];
 
   // Testing i1-1.
   const lower1 = getArray2dValue(array2d, i1 - 1, i2);
@@ -1143,7 +1234,7 @@ export function calcEditDistance(
   const map1 = {};
   const map2 = {};
   let pathElement = array2d[leni1][leni2];
-  asserts.assert(pathElement);
+  assert(pathElement);
   const score = pathElement.score;
   while (pathElement) {
     if (pathElement.key1 != null) {
@@ -1178,7 +1269,7 @@ interface MergedItems {
  * @param ar1Array One array.
  * @param ar2Array Another array.
  * @param getValue A function that accepts an element from the array
- *     and returns the value of that element.  Defaults to functions.identity.
+ *     and returns the value of that element.  Defaults to identity.
  * @return An array of MergedItems, or null.
  */
 export function mergeArrays<T>(
@@ -1197,7 +1288,7 @@ MergedItems[] | null {
   }
   const merged: Array<Partial<MergedItems>> = [];
   if (!getValue) {
-    getValue = functions.identity as (p1: T) => number;
+    getValue = identity as (p1: T) => number;
   }
 
   // First merge without filling in gaps.
@@ -1389,7 +1480,7 @@ function piecewiseLinearInterpolationInternal(
   const compareFn = (x: number, coordinate: Coordinate) =>
     // same as: goog.array.defaultCompare(x, coordinate.x);
     ((a, b) => (a > b ? 1 : a < b ? -1 : 0))(x, coordinate.x);
-  const i = binarySearch(coordinates, x, compareFn);
+  const i = binarySearchCoordinates(coordinates, x, compareFn);
 
   // There is a coordinate at given x, no need to interpolate.
   if (i >= 0) {
@@ -1405,10 +1496,9 @@ function piecewiseLinearInterpolationInternal(
   const prev = coordinates[insertionIndex - 1];
   const next = coordinates[insertionIndex];
 
-  const line = new Line(prev.x, prev.y, next.x, next.y);
-  // See documentation of Line.getInterpolatedPoint()
+  // Simple linear interpolation since Three.js Line3 has different constructor
   const t = (x - prev.x) / (next.x - prev.x);
-  return line.getInterpolatedPoint(t).y;
+  return prev.y + t * (next.y - prev.y);
 }
 
 // Modified from http://jsfiddle.net/aryzhov/pkfst550/
@@ -1456,6 +1546,34 @@ function binarySearch<ELEMENT, TARGET>(
   return -lower - 1;
 }
 
+/**
+ * Binary search implementation to replace googArray.binarySearch
+ */
+export function binarySearchArray<T>(arr: T[], target: T, compareFn?: (a: T, b: T) => number): number {
+  const compare = compareFn || ((a, b) => a < b ? -1 : a > b ? 1 : 0);
+  let left = 0;
+  let right = arr.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const cmp = compare(target, arr[mid]);
+
+    if (cmp === 0) return mid;
+    if (cmp < 0) right = mid - 1;
+    else left = mid + 1;
+  }
+
+  return -(left + 1); // Return insertion point as negative
+}
+
+/**
+ * Get the last element of an array (replaces googArray.peek)
+ */
+export const peekArray = <T>(arr: T[]): T => {
+  assert(arr.length > 0, 'Array cannot be empty');
+  return arr[arr.length - 1];
+};
+
 // From jsapi/common/util.ts
 
 /**
@@ -1475,7 +1593,7 @@ export function roughlyEquals(
 ): boolean {
   // The default has been chosen arbitrarily, and is safe to change if required.
   threshold = threshold != null ? threshold : 0.00001;
-  asserts.assert(threshold >= 0);
+  assert(threshold >= 0, 'threshold must be non-negative');
   // The a == b part is there to handle Infinity and -Infinity.
   return a === b || Math.abs(a - b) <= threshold;
 }
@@ -1489,14 +1607,14 @@ export function roughlyEquals(
  * @return The new range.
  */
 export function extendRangeToInclude(
-  range: Range | null,
+  range: RangeCompat | null,
   value: number | null,
-): Range | null {
+): RangeCompat | null {
   if (value == null) {
     return range;
   }
-  const valueRange = new Range(value, value);
-  return range ? Range.boundingRange(range, valueRange) : valueRange;
+  const valueRange = new RangeCompat(value, value);
+  return range ? RangeCompat.boundingRange(range, valueRange) : valueRange;
 }
 
 /**
@@ -1512,10 +1630,10 @@ export function extendRangeToInclude(
  * @return The result range.
  */
 export function getOverriddenRange(
-  range: Range | null,
+  range: RangeCompat | null,
   min: number | null,
   max: number | null,
-): Range | null {
+): RangeCompat | null {
   const newMin =
     min != null
       ? min
@@ -1532,7 +1650,7 @@ export function getOverriddenRange(
         : range
           ? range.end
           : null;
-  return newMin != null && newMax != null ? new Range(newMin, newMax) : null;
+  return newMin != null && newMax != null ? new RangeCompat(newMin, newMax) : null;
 }
 
 /**
@@ -1548,7 +1666,7 @@ export function calcBoundingBox(boxes: Box[]): Box | null {
   // Start from a copy of the first box, and expand to include all other boxes.
   const boundingBox = boxes[0].clone();
   for (let i = 1; i < boxes.length; i++) {
-    boundingBox.expandToInclude(boxes[i]);
+    boundingBox.union(boxes[i]);
   }
   return boundingBox;
 }
@@ -1562,9 +1680,9 @@ export function calcBoundingBox(boxes: Box[]): Box | null {
  * @return The numeric value that is closest to the target value.
  */
 export function findClosestValue(arr: number[], val: number): number {
-  asserts.assert(arr.length !== 0);
+  assert(arr.length > 0, 'Array cannot be empty');
 
-  let i = googArray.binarySearch(arr, val);
+  let i = binarySearchArray(arr, val);
   if (i >= 0) {
     // Target value is present in the array.
     return val;
@@ -1576,11 +1694,35 @@ export function findClosestValue(arr: number[], val: number): number {
     return arr[0];
   }
   if (i === arr.length) {
-    return googArray.peek(arr);
+    return peekArray(arr);
   }
 
   // Target value is in range [a, b]. Return the closer of the two.
   const a = arr[i - 1];
   const b = arr[i];
   return Math.abs(val - a) <= Math.abs(val - b) ? a : b;
+}
+
+
+/**
+ * Binary search for coordinates (specialized version)
+ */
+function binarySearchCoordinates(
+  coordinates: Coordinate[],
+  x: number,
+  compareFn: (x: number, coordinate: Coordinate) => number
+): number {
+  let left = 0;
+  let right = coordinates.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const cmp = compareFn(x, coordinates[mid]);
+
+    if (cmp === 0) return mid;
+    if (cmp < 0) right = mid - 1;
+    else left = mid + 1;
+  }
+
+  return -(left + 1); // Return insertion point as negative
 }

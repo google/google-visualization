@@ -1,6 +1,35 @@
-This folder contains the obsoleted ValueScale class, its subclasses and utilities.
+# Axis Value Scale Directory (Deprecated)
 
-Please do not use any of these classes for new applications.
+**Warning: The contents of this directory are deprecated and should not be used for new development. Efforts are underway to remove dependencies on these classes.**
 
-Also, please help disentangle the remaining dependencies on these classes so we
-can delete them.
+This directory contains the code related to `ValueScale` and its subclasses. The primary purpose of these classes was to handle the conversion and scaling of data values (like numbers, dates, and times-of-day) for representation on a chart axis. This included:
+
+*   Converting different data types to a common numeric representation.
+*   Calibrating the scale based on minimum and maximum data values.
+*   Generating tick marks.
+*   Formatting values for display.
+
+## Files and Their (Former) Purpose
+
+*   **`value_scale.ts`:** The abstract base class for all value scales. It defined the core interface for value conversion, calibration, and tick generation.
+*   **`numeric_value_scale.ts`:** An implementation for handling purely numeric data.
+*   **`datetime_value_scale.ts`:** An implementation for handling `Date` and `DateTime` data types. It converted dates to milliseconds since the epoch for scaling.
+*   **`timeofday_value_scale.ts`:** An implementation for handling time-of-day values (represented as arrays like `[hours, minutes, seconds, milliseconds]`). It converted these to milliseconds since midnight.
+*   **`scale_repository.ts`:** A singleton repository that was used to register and retrieve `ValueScale` instances based on data type.
+*   **`scale_initializer.ts`:** This file contained the calls to register the different `ValueScale` implementations with the `ScaleRepository`.
+
+## Relationship to Other Parts of the Code (Legacy)
+
+Historically, these `ValueScale` classes were central to how axes processed and displayed data.
+
+*   **`axis/axis_definer.ts` (and its subclasses):** The axis definers heavily relied on `ValueScale` instances to:
+    *   Convert raw data values from the `DataTable` into numeric values suitable for positioning on the axis.
+    *   Determine appropriate tick mark locations and values based on the data range and type.
+    *   Format tick labels.
+*   **`common/options.ts`:** Options related to axis formatting, minimum/maximum values, and baseline were consumed by the `ValueScale` classes.
+*   **`data/`:** The `ValueScale` classes operated on `Value` types defined in the `data` directory.
+*   **`format/`:** Formatting classes (like `DateFormat`, `NumberFormat`) were used by the value scales to produce human-readable tick labels.
+
+**Current Status:** The functionality previously provided by `ValueScale` is being or has been migrated to more modern and focused components within the `axis` directory, such as the various `Mapper` implementations, `Sequence` generators, and `DecorationSupplier` classes (e.g., `LinAxisDecorationSupplier`, `LogAxisDecorationSupplier`, `TimeAxisDecorationSupplier`). The `DateTickDefiner` is a more current approach for handling date/time axes.
+
+The primary goal is to refactor the codebase to eliminate dependencies on this `value_scale` directory, eventually allowing for its complete removal.
